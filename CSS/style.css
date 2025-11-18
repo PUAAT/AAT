@@ -3,13 +3,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    html {
+    scroll-behavior: smooth; /* 讓錨點跳轉有「滑動」效果 */
+    }
 }
 
 /* 2. 基礎風格 (深色刺客風格) */
+/* 找到你原本的 body 設定，用下面這段替換 */
 body {
     font-family: Arial, "Helvetica Neue", "微軟正黑體", sans-serif;
-    background-color: #1a1a1a; /* 深黑灰色背景 */
-    color: #f0f0f0; /* 亮灰色文字 */
+    
+    /* --- 史詩級背景升級 --- */
+    /* 使用「放射狀漸層 (Radial Gradient)」 */
+    /* 意思：從正中間的深灰色 (#222) 向外擴散到純黑色 (#000) */
+    background: radial-gradient(circle at center, #2b2b2b 0%, #000000 100%);
+    
+    /* 讓背景固定住，當你捲動文字時，背景光影不會動，這很有質感 */
+    background-attachment: fixed; 
+    
+    color: #f0f0f0;
 }
 
 /* 3. 裝潢導覽列 (nav) - (舊區塊修改) */
@@ -245,6 +257,141 @@ nav.scrolled {
     background-image: url('../images/syndicate-bg.jpg');
 }
 
+/* --- 子頁面專用樣式 --- */
+
+/* 1. 子頁面標頭 (比首頁的 Hero 小一點) */
+.page-header {
+    background-color: #222;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 2px solid #c0392b;
+}
+
+.page-header h1 {
+    font-size: 48px;
+    color: #f0f0f0;
+    
+    /* --- 藝術字體設定 --- */
+    /* 這裡列出了一串字體，瀏覽器會由左至右，有哪個就用哪個 */
+    font-family: "Didot", "Bodoni MT", "Times New Roman", serif;
+    
+    /* 增加字距，讓標題看起來更寬敞大氣 */
+    letter-spacing: 4px;
+    
+    /* 讓字體變細一點，更有現代雜誌感 (如果字體支援) */
+    font-weight: lighter;
+    
+    /* 轉成全大寫 */
+    text-transform: uppercase; 
+}
+
+/* 2. 內容容器 (關鍵！限制寬度，置中) */
+.container {
+    max-width: 1000px; /* 最大寬度 1000px */
+    margin: 0 auto;    /* 上下 0，左右 auto (這會讓區塊置中！) */
+    padding: 40px 20px;
+}
+
+/* 3. 故事區塊 (圖文排版) */
+.story-block {
+    display: flex; /* 讓圖和文並排 */
+    gap: 40px;     /* 圖文間距 */
+    margin-bottom: 60px;
+    align-items: center;
+}
+
+.story-block img {
+    width: 400px;
+    height: 250px;
+    object-fit: cover;
+    
+    /* --- 修改這裡 --- */
+    border-radius: 4px; /* 圓角小一點，比較俐落 */
+    
+    /* 雙重邊框效果：先一圈白，再一圈陰影 */
+    border: 4px solid #2a2a2a; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8); /* 讓陰影很深、很擴散，製造懸浮感 */
+    
+    /* 加一點濾鏡，讓圖片稍微暗一點，滑鼠移過去再變亮 */
+    filter: brightness(0.8) sepia(0.2); /* 稍微帶點復古黃色調 */
+    transition: all 0.4s ease;
+}
+
+/* 滑鼠移到圖片上時 */
+.story-block img:hover {
+    filter: brightness(1.1) sepia(0); /* 變亮，移除復古濾鏡，變回原色 */
+    transform: scale(1.02); /* 微微放大 */
+}
+
+.story-text h2 {
+    color: #c0392b; /* 標題用刺客紅 */
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.story-text p {
+    line-height: 1.6; /* 增加行高，讓閱讀更舒適 */
+    margin-bottom: 15px;
+    color: #ccc;
+}
+/* --- Story 頁面細節優化 --- */
+
+/* 讓英文的小標題 (h3) 看起來有質感 */
+.sub-title {
+    color: #c0392b; /* 刺客紅 */
+    font-size: 18px;
+    font-weight: normal; /* 不用太粗 */
+    margin-bottom: 15px; /* 跟下面的文字分開一點 */
+    text-transform: uppercase; /* 自動變全大寫，看起來很像電影海報 */
+    letter-spacing: 1px; /* 字距拉開一點 */
+}
+
+/* 優化英文閱讀體驗 */
+.story-text p {
+    font-size: 16px;
+    line-height: 1.8; /* 英文行高設 1.8 會非常優雅好讀 */
+    color: #ccc;
+    margin-bottom: 20px; /* 段落之間要有足夠空隙 */
+    text-align: justify; /* 讓文字左右對齊 (像報紙一樣整齊) */
+}
+
+/* 4. 分隔線 */
+hr {
+    border: 0;
+    height: 1px;
+    /* 漸層分隔線：中間亮，兩邊消失 */
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(192, 57, 43, 0.7), rgba(0, 0, 0, 0));
+    margin: 60px 0;
+}
+
+/* 選取每個 .story-text 裡面的「第一個」 p 標籤 的「第一個」字母 */
+.story-text p:first-of-type::first-letter {
+    color: #c0392b; /* 刺客紅 */
+    font-size: 3.5em; /* 放大 3.5 倍 */
+    float: left; /* 讓它浮在左邊，文字會繞過它 */
+    line-height: 0.8; /* 調整行高，避免上方留白太多 */
+    margin-right: 10px; /* 跟右邊文字保持距離 */
+    font-family: "Times New Roman", serif; /* 確保是用襯線體 */
+    font-weight: bold;
+}
+
+/* --- 經典名言樣式 --- */
+.epic-quote {
+    font-family: "Times New Roman", serif; /* 襯線體 */
+    font-size: 20px;
+    font-style: italic; /* 斜體 */
+    color: #a0a0a0; /* 比白色暗一點，比較低調 */
+    
+    /* 左邊加上一條刺客紅的線，增加設計感 */
+    border-left: 4px solid #c0392b; 
+    
+    padding-left: 20px; /* 文字跟紅線保持距離 */
+    margin: 20px 0;     /* 上下留白 */
+    
+    /* 讓它有點發光的效果 (選用) */
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
 @media (max-width: 768px) {
 
@@ -299,4 +446,28 @@ nav.scrolled {
         grid-template-columns: 1fr;
         padding: 20px;
     }
+    /* 手機版：故事頁面 */
+    .story-block {
+        flex-direction: column; /* 手機上變成垂直排列 */
+    }
+    
+    .story-block img {
+        width: 100%; /* 圖片佔滿手機寬度 */
+        height: auto;
+    }
+}
+
+/* --- 捲動浮現動畫 (Scroll Reveal) --- */
+
+/* 1. 初始狀態：隱藏 */
+.reveal {
+    opacity: 0; /* 完全透明 */
+    transform: translateY(50px); /* 往下沉 50px */
+    transition: all 1s ease; /* 變化過程花 1 秒，很優雅 */
+}
+
+/* 2. 啟動狀態：出現 (JS 會加上這個 class) */
+.reveal.active {
+    opacity: 1; /* 變回不透明 */
+    transform: translateY(0); /* 回到原本位置 */
 }

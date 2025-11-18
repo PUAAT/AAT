@@ -245,38 +245,58 @@ nav.scrolled {
     background-image: url('../images/syndicate-bg.jpg');
 }
 
-/* 9. 響應式設計 (RWD) - 升級 2 */
+/* 9s. 響應式設計 (RWD) - 手機版修正 */
 @media (max-width: 768px) {
-    
-    /* 1. 顯示漢堡按鈕 */
-    .menu-toggle {
-        display: flex; /* 手機版要出現！ */
+
+    /* 0. 關鍵修正：防止版面左右滑動 */
+    body, html {
+        overflow-x: hidden; /* 隱藏超出的寬度 */
+        width: 100%;
     }
 
-    /* 2. 修改選單 (原本是橫的，現在要變成直的下拉選單) */
+    /* 1. 導覽列：縮小邊距，避免撐爆螢幕 */
+    nav {
+        padding: 15px 20px; /* 原本是 20px 40px，手機上太寬了 */
+    }
+
+    /* 2. 顯示漢堡按鈕 */
+    .menu-toggle {
+        display: flex;
+        z-index: 1001; /* 確保按鈕在最上層，按得到 */
+    }
+
+    /* 3. 手機版下拉選單 */
     nav ul {
-        display: none; /* 預設是隱藏的 */
-        flex-direction: column; /* 變成垂直排列 */
-        width: 100%; /* 佔滿寬度 */
-        position: absolute; /* 絕對定位：浮在內容上面 */
-        top: 70px; /* 距離頂部的高度 (根據你導覽列高度調整) */
+        display: none; /* 預設隱藏 */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px; /* 調整這個數字，讓選單剛好接在導覽列下方 */
         left: 0;
-        background-color: #000; /* 黑色背景 */
+        background-color: #000;
         padding: 20px 0;
         text-align: center;
-        z-index: 999; /* 確保它蓋在所有東西上面 */
+        z-index: 1000; /* 確保選單蓋住內容 */
+        box-shadow: 0 5px 10px rgba(0,0,0,0.5); /* 加點陰影 */
     }
 
-    /* 3. 當選單被打開時 (JS 會加上這個 active class) */
+    /* 當 JS 加上 active 時，顯示選單 */
     nav ul.active {
-        display: flex; /* 變成顯示！ */
+        display: flex;
     }
 
-    /* 優化手機版選單的間距 */
-    nav ul li {
-        margin: 15px 0; /* 上下間距加大 */
-        margin-left: 0; /* 移除原本的左邊距 */
+    /* 4. Hero 標題縮小 */
+    .hero h1 {
+        font-size: 28px; /* 再小一點，避免斷行太醜 */
     }
     
-    /* ... 下面是你原本的 .hero h1 和 .game-grid 設定，保留著不要動 ... */
+    .hero p {
+        font-size: 14px;
+    }
+
+    /* 5. 卡片變一欄 */
+    .game-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
 }

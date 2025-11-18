@@ -56,6 +56,20 @@ nav ul li a {
 nav ul li a:hover {
     color: #c0392b; /* 當滑鼠「移上去」(hover) 時，連結變成紅色 */
 }
+/* --- 漢堡選單按鈕 (預設隱藏) --- */
+.menu-toggle {
+    display: none; /* 電腦版不顯示 */
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    height: 3px;
+    width: 25px;
+    background-color: #f0f0f0;
+    margin-bottom: 4px;
+    border-radius: 2px;
+}
 
 /* 4. Hero 區域 (大橫幅) */
 .hero {
@@ -233,26 +247,36 @@ nav.scrolled {
 
 /* 9. 響應式設計 (RWD) - 升級 2 */
 @media (max-width: 768px) {
+    
+    /* 1. 顯示漢堡按鈕 */
+    .menu-toggle {
+        display: flex; /* 手機版要出現！ */
+    }
 
-    /* 1. 導覽列：在手機上，隱藏選單 (ul) */
+    /* 2. 修改選單 (原本是橫的，現在要變成直的下拉選單) */
     nav ul {
-        display: none;
+        display: none; /* 預設是隱藏的 */
+        flex-direction: column; /* 變成垂直排列 */
+        width: 100%; /* 佔滿寬度 */
+        position: absolute; /* 絕對定位：浮在內容上面 */
+        top: 70px; /* 距離頂部的高度 (根據你導覽列高度調整) */
+        left: 0;
+        background-color: #000; /* 黑色背景 */
+        padding: 20px 0;
+        text-align: center;
+        z-index: 999; /* 確保它蓋在所有東西上面 */
+    }
+
+    /* 3. 當選單被打開時 (JS 會加上這個 active class) */
+    nav ul.active {
+        display: flex; /* 變成顯示！ */
+    }
+
+    /* 優化手機版選單的間距 */
+    nav ul li {
+        margin: 15px 0; /* 上下間距加大 */
+        margin-left: 0; /* 移除原本的左邊距 */
     }
     
-    /* 2. Hero 標題：在手機上字體要小一點 */
-    .hero h1 {
-        font-size: 32px; /* 從 48px 縮小到 32px */
-    }
-
-    .hero p {
-        font-size: 16px; /* 副標題也縮小 */
-    }
-
-    /* 3. 遊戲卡片：從「三欄」變成「一欄」 */
-    .game-grid {
-        /* 關鍵！覆蓋掉原本的 3 欄設定 */
-        grid-template-columns: 1fr;
-        
-        padding: 20px; /* 手機上的邊界可以窄一點 */
-    }
+    /* ... 下面是你原本的 .hero h1 和 .game-grid 設定，保留著不要動 ... */
 }

@@ -21,3 +21,15 @@ window.addEventListener('scroll', () => {
         nav.classList.remove('scrolled');
     }
 });
+/* --- 漢堡選單功能 --- */
+
+// 1. 抓取按鈕 和 選單
+const menuToggle = document.querySelector('.menu-toggle');
+const navMenu = document.querySelector('.nav-menu'); // 記得 HTML ul 要加 class="nav-menu"
+
+// 2. 監聽按鈕的「點擊 (click)」事件
+menuToggle.addEventListener('click', () => {
+    
+    // 3. 切換 active class (有就移除，沒有就加上)
+    navMenu.classList.toggle('active');
+});

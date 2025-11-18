@@ -60,3 +60,42 @@ function reveal() {
 
 // 頁面載入時先執行一次 (避免剛打開是一片白)
 reveal();
+
+/* --- 3D 圖片傾斜特效 (3D Tilt) --- */
+
+// 1. 抓取所有的故事圖片
+const images = document.querySelectorAll('.story-block img');
+
+// 2. 幫每一張圖片加上監聽器
+images.forEach(img => {
+    
+    // 當滑鼠在圖片上移動時...
+    img.addEventListener('mousemove', (e) => {
+        const rect = img.getBoundingClientRect();
+        
+        // 計算滑鼠在圖片內的 X 和 Y 座標 (0 到 1 之間)
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        
+        // 計算旋轉角度 (範圍 -15度 到 15度)
+        // 0.5 是中心點
+        const rotateX = (0.5 - y) * 30; 
+        const rotateY = (x - 0.5) * 30;
+        
+        // 套用 CSS 變形
+        // perspective(1000px) 是創造 3D 景深
+        img.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    });
+
+    // 當滑鼠離開圖片時...
+    img.addEventListener('mouseleave', () => {
+        // 圖片慢慢回復原狀
+        img.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        img.style.transition = 'transform 0.5s ease'; // 加上平滑過渡
+    });
+    
+    // 當滑鼠進入時，取消平滑過渡 (讓反應更靈敏)
+    img.addEventListener('mouseenter', () => {
+        img.style.transition = 'none';
+    });
+});

@@ -1,0 +1,222 @@
+/* 1. 全局重置 (我們之前學過的!) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 2. 基礎風格 (深色刺客風格) */
+body {
+    font-family: Arial, "Helvetica Neue", "微軟正黑體", sans-serif;
+    background-color: #1a1a1a; /* 深黑灰色背景 */
+    color: #f0f0f0; /* 亮灰色文字 */
+}
+
+/* 3. 裝潢導覽列 (nav) - (舊區塊修改) */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; /* 原本的 padding */
+    background-color: #111;
+    border-bottom: 2px solid #c0392b;
+    transition: padding 0.3s ease, background-color 0.3s ease;
+}
+
+.logo-link {
+    /* 讓圖片連結像一個區塊 */
+    display: inline-block;
+}
+
+.logo-image {
+    /* 關鍵：控制 Logo 的高度 */
+    height: 40px; 
+    /* 你可以把 40px 調整成你覺得最適合導覽列的高度 */
+
+    width: auto; /* 寬度自動縮放，保持比例 */
+    vertical-align: middle; /* 讓圖片在導覽列中垂直對齊 */
+}
+
+nav ul {
+    list-style: none; /* 移除 <li> 的小點點 */
+    display: flex; /* 關鍵！讓列表「內部」也用 Flexbox */
+}
+
+nav ul li {
+    margin-left: 20px; /* 讓每個選項之間有 20px 的左邊距 */
+}
+
+nav ul li a {
+    text-decoration: none; /* 移除 <a> 連結的底線 */
+    color: #f0f0f0; /* 設定文字顏色 (跟 body 一樣) */
+    font-weight: bold;
+    transition: color 0.3s; /* 加上一個 0.3 秒的顏色變化動畫 */
+}
+
+nav ul li a:hover {
+    color: #c0392b; /* 當滑鼠「移上去」(hover) 時，連結變成紅色 */
+}
+
+/* 4. Hero 區域 (大橫幅) */
+.hero {
+    height: 50vh;
+    background-image: url('../images/ac-banner.jpg');
+    background-size: cover;
+    background-position: center 20%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    position: relative; 
+}
+
+.hero h1 {
+    font-size: 54px;
+    font-family:'Ranade', sans-serif;
+    text-shadow: 2px 2px 4px #000;
+    position: relative;
+    z-index: 3; 
+}
+
+.hero p {
+    font-size: 26px;
+    font-family: 'ranade', sans-serif;
+    text-shadow: 1px 1px 2px #000;
+    position: relative;
+    z-index: 3; 
+}
+
+/* 4.1. Hero 區域的「半透明黑色遮罩」 */
+.hero::before {
+    content: ""; /* 這是 CSS 偽元素 (pseudo-element) 必須的 */
+    
+    /* 這四行會讓遮罩「完全鋪滿」整個 .hero 區域 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* * 關鍵！ 
+     * rgba(0, 0, 0, 0.5) 的意思是：
+     * 0, 0, 0 = 黑色 (Black)
+     * 0.5 = 50% 的透明度 (Alpha)
+     * 你可以把 0.5 改成 0.3 (更亮) 或 0.7 (更暗)
+     */
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    z-index: 2; /* 讓遮罩在「中間層」 (數字 2) */
+                /* (背景圖在 1, 遮罩在 2, 文字在 3) */
+}
+
+/* 5. 遊戲卡片 (CSS Grid 排版) */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 完美的 3 欄式佈局 */
+    gap: 20px; /* 卡片間距 */
+    padding: 40px;
+}
+
+.game-card {
+    border: 1px solid #444;
+    border-radius: 8px; /* 圓角 */
+    padding: 20px;
+    text-align: center;
+    font-family: 'ranade', sans-serif;
+    transition: transform 0.3s; /* 簡易動畫 */
+}
+
+.game-card:hover {
+    /* 我們把「上移」和「放大」寫在一起 */
+    transform: translateY(-5px) scale(1.03); /* 往上移 5px 並放大 3% */
+    border-color: #c0392b;
+}
+/* 5.1 卡片 Hover 時，遮罩變淡 */
+.game-card:hover::before {
+    /* * 從 50% 透明度 (0.5) 
+     * 變成 20% 透明度 (0.2)
+     * 圖片就會「浮現」出來！
+     */
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* (進階) 幫三張卡片加上各自的背景圖 (需要你自己放圖) */
+#origins { background-image: url('../images/origins-bg.jpg'); }
+#unity { background-image: url('../images/unity-bg.jpg'); }
+#syndicate { background-image: url('../images/syndicate-bg.jpg'); }
+
+/* 6. 頁尾 */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #111;
+    margin-top: 40px;
+}
+/* 7. JS 互動樣式 (捲動後的導覽列) */
+
+/* * 瀏覽器會讀取 nav.scrolled (一個 nav 元素「同時」擁有 scrolled 這個 class)
+ */
+nav.scrolled {
+    /* 讓導覽列變薄 */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    /* 讓導覽列變更黑，更有層次感 */
+    background-color: #000;
+}
+
+/*
+ * 我們還需要告訴「原本的」nav，它的 padding 變化時要有「動畫」
+ * 回去找到你最上面的 nav { ... } 區塊
+ * 在裡面加上 'transition' 這一行
+ */
+ 
+/* 8. 遊戲卡片背景圖 */
+
+/* 幫卡片加上背景圖的通用設定 */
+.game-card {
+    background-size: cover; /* 讓背景圖填滿卡片 */
+    background-position: center; /* 圖片置中 */
+    position: relative; /* 這是為了下一步的「遮罩」做準備 */
+    z-index: 1;
+}
+
+/* * 專業技巧：加上「半透明黑色遮罩」
+ * 這樣不管你的背景圖多亮，白色的文字都還是能看清楚
+*/
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 這是 50% 透明度 */
+    border-radius: 8px;
+    z-index: 2;
+    transition: background-color 0.3s ease; /* 讓背景色變化有 0.3 秒動畫 */
+}
+
+/* 讓卡片文字浮在「遮罩之上」 */
+.game-card h2, .game-card p {
+    position: relative; /* 讓文字也浮起來 */
+    z-index: 3; /* 確保文字在最上層 */
+}
+
+/* --- 指定三張卡片的圖片 --- */
+
+#origins {
+    background-image: url('../images/origins-bg.jpg');
+    background-position:center 30% ;
+}
+
+#unity {
+    background-image: url('../images/unity-bg.jpg');
+    background-position:top;
+}
+
+#syndicate {
+    background-image: url('../images/syndicate-bg.jpg');
+}

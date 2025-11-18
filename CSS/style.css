@@ -147,6 +147,19 @@ nav ul li a:hover {
 #unity { background-image: url('../images/unity-bg.jpg'); }
 #syndicate { background-image: url('../images/syndicate-bg.jpg'); }
 
+/* 5.2 遊戲卡片連結樣式 (升級 1) */
+
+.game-card-link {
+    /* 關鍵：移除 <a> 標籤的預設底線 */
+    text-decoration: none;
+
+    /* 關鍵：讓 <a> 標籤裡的文字顏色「繼承」父層
+     * (也就是繼承我們設定的 #f0f0f0 亮灰色)
+     * 而不是 <a> 標籤預設的藍色
+     */
+    color: inherit; 
+}
+
 /* 6. 頁尾 */
 footer {
     text-align: center;
@@ -219,4 +232,35 @@ nav.scrolled {
 
 #syndicate {
     background-image: url('../images/syndicate-bg.jpg');
+}
+
+/* 9. 響應式設計 (RWD) - 升級 2 */
+
+/*
+ * 這行程式碼的意思是：
+ * "當 (at-media) 瀏覽器視窗的「最大寬度 (max-width)」是 768px 或更小時..."
+ * (768px 是一台平板電腦直放的寬度)
+ */
+@media (max-width: 768px) {
+    
+    /* ... 我們要把所有「手機版」的 CSS 樣式寫在這裡 ... */
+    /* 1. 導覽列：在手機上，隱藏選單 (ul) */
+    nav ul {
+        display: none;
+    }
+    /* 2. Hero 標題：在手機上字體要小一點 */
+    .hero h1 {
+        font-size: 32px; /* 從 48px 縮小到 32px */
+    }
+
+    .hero p {
+        font-size: 16px; /* 副標題也縮小 */
+    }
+    /* 3. 遊戲卡片：從「三欄」變成「一欄」 */
+    .game-grid {
+        /* 關鍵！覆蓋掉原本的 3 欄設定 */
+        grid-template-columns: 1fr;
+        
+        padding: 20px; /* 手機上的邊界可以窄一點 */
+    }
 }

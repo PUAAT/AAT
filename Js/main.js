@@ -33,3 +33,30 @@ menuToggle.addEventListener('click', () => {
     // 3. 切換 active class (有就移除，沒有就加上)
     navMenu.classList.toggle('active');
 });
+/* --- 捲動浮現效果 (Scroll Reveal) --- */
+
+window.addEventListener('scroll', reveal);
+
+function reveal() {
+    // 1. 抓取所有帶有 'reveal' class 的元素
+    var reveals = document.querySelectorAll('.reveal');
+
+    // 2. 遍歷每一個元素
+    for (var i = 0; i < reveals.length; i++) {
+
+        var windowHeight = window.innerHeight; // 視窗高度
+        var elementTop = reveals[i].getBoundingClientRect().top; // 元素距離頂部的距離
+        var elementVisible = 150; // 緩衝距離 (讓元素進入視窗 150px 後才出現)
+
+        // 3. 如果元素進入了視線範圍...
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add('active'); // 加上 active class -> 觸發 CSS 動畫
+        } else {
+            // (選用) 如果想讓它滑出去後消失，可以把 else 打開
+            // reveals[i].classList.remove('active'); 
+        }
+    }
+}
+
+// 頁面載入時先執行一次 (避免剛打開是一片白)
+reveal();

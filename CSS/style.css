@@ -478,6 +478,88 @@ hr {
     text-shadow: 0 2px 10px #000;
 }
 
+/* --- Videos 頁面：史詩級影音樣式 (Final Version) --- */
+
+/* 1. 區塊大標題 (Origins, Unity...) */
+.video-title {
+    font-family: "Cinzel", serif; /* 使用史詩字體 (如果沒引入則會用襯線體) */
+    color: #c0392b; /* 刺客紅 */
+    font-size: 32px;
+    margin-bottom: 30px;
+    
+    /* 左側裝飾線：讓標題更有層次 */
+    border-left: 4px solid #f0f0f0; 
+    padding-left: 20px;
+    
+    text-transform: uppercase;
+    letter-spacing: 3px; /* 字距拉寬，更有電影感 */
+    
+    /* 讓文字有點立體陰影 */
+    text-shadow: 0 0 15px rgba(192, 57, 43, 0.4);
+}
+
+/* 2. 影片網格排版 (Grid System) */
+.video-grid {
+    display: grid;
+    /* 智慧排版：每格至少 450px 寬，空間夠就自動並排 */
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 40px; /* 影片之間的距離拉大，更舒適 */
+    margin-bottom: 80px; /* 每個遊戲區塊之間的距離 */
+}
+
+/* 3. 影片卡片 (外框容器) - 質感核心 */
+.video-card {
+    background-color: #0a0a0a; /* 極致深灰底色 */
+    padding: 15px; /* 內留白，製造「畫框」效果 */
+    border: 1px solid #333; /* 低調的深灰邊框 */
+    border-radius: 4px; /* 微微圓角 */
+    
+    /* 預設陰影：讓卡片浮在背景上 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    
+    /* 平滑過渡動畫 */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+}
+
+/* --- Hover 特效：Animus 啟動感 --- */
+.video-card:hover {
+    transform: translateY(-10px); /* 懸浮上升 */
+    border-color: #c0392b; /* 邊框變紅 */
+    
+    /* 紅色數位光暈效果 */
+    box-shadow: 0 15px 40px rgba(192, 57, 43, 0.2);
+}
+
+/* 4. 影片本體 (Iframe) */
+.video-card iframe, 
+.video-card video {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* 鎖定比例 */
+    border: none;
+    border-radius: 2px;
+    display: block;
+    background-color: #000;
+    object-fit: cover; /* 確保封面圖填滿 */
+}
+
+/* 5. 影片下方說明文字 */
+.video-card p {
+    color: #666; /* 預設暗灰色，不搶影片風采 */
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase; /* 全大寫，像系統數據 */
+    transition: color 0.3s ease;
+}
+
+/* Hover 時文字變亮白 */
+.video-card:hover p {
+    color: #fff;
+}
+
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
 @media (max-width: 768px) {
 
@@ -555,3 +637,19 @@ hr {
         font-size: 24px; /* 字體縮小 */
     }
 }
+/* Videos 手機版修正 */
+    .video-grid {
+        /* 手機強制一欄 */
+        grid-template-columns: 1fr; 
+        gap: 30px;
+    }
+    
+    .video-title {
+        font-size: 24px; /* 標題縮小 */
+        padding-left: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .video-card {
+        padding: 10px; /* 手機版邊框薄一點，節省空間 */
+    }

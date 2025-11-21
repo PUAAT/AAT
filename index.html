@@ -30,12 +30,25 @@
     </header>
 
     <main>
-        <section class="hero">
-            <h1>Seek The True History</h1>
-            <p> Through Those Assassin's Vision</p>
-        </section>
+        <div class="video-hero" style="height: 100vh;"> <video autoplay muted loop playsinline id="hero-video">
+         <source src="videos/unity_e3.mp4" type="video/mp4">
+            </video>
 
-        <section class="game-grid">
+            <div class="video-overlay"></div>
+
+            <div class="hero-content">
+                <h1 class="glitch-text" data-text="EXPLORE HISTORY">EXPLORE HISTORY</h1>
+                <p class="subtitle">THROUGH THE EYES OF ASSASSINS</p>
+            </div>
+        </div>
+
+        <div class="parallax-separator" style="background-image: url('images/syndicate-wide.jpg'); height: 300px;">
+            <div class="overlay-text">
+            <h2 style="font-size: 28px; letter-spacing: 5px;">CHOOSE YOUR ERA</h2>
+        </div>
+    </div>
+
+        <section class="game-grid reveal">
 
     <a href="story.html#origins-story" class="game-card-link">
         <div class="game-card" id="origins">

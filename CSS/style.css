@@ -12,16 +12,27 @@
 /* 找到你原本的 body 設定，用下面這段替換 */
 body {
     font-family: Arial, "Helvetica Neue", "微軟正黑體", sans-serif;
-    
-    /* --- 史詩級背景升級 --- */
-    /* 使用「放射狀漸層 (Radial Gradient)」 */
-    /* 意思：從正中間的深灰色 (#222) 向外擴散到純黑色 (#000) */
-    background: radial-gradient(circle at center, #2b2b2b 0%, #000000 100%);
-    
-    /* 讓背景固定住，當你捲動文字時，背景光影不會動，這很有質感 */
-    background-attachment: fixed; 
-    
     color: #f0f0f0;
+    
+    /* --- 史詩級 Animus 背景 --- */
+    background-color: #0a0a0a; /* 深黑底色 */
+    
+    /* 1. 繪製網格線 (用 CSS 漸層畫出來的，很省資源) */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    
+    /* 設定網格大小 */
+    background-size: 50px 50px;
+    
+    /* 2. 疊加暗角 (Vignette) - 讓周圍變暗，聚焦中心 */
+    background: 
+        radial-gradient(circle at center, transparent 0%, #000 90%), /* 暗角層 */
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), /* 橫線 */
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* 直線 */
+        
+    background-color: #0a0a0a; /* 確保底色還是黑的 */
+    background-attachment: fixed; /* 讓網格固定不動，製造深邃感 */
 }
 
 /* 3. 裝潢導覽列 (nav) - (舊區塊修改) */
@@ -450,11 +461,70 @@ hr {
     box-shadow: inset 0 0 100px #000; /* 內陰影，讓圖片邊緣黑黑的，融合背景 */
 }
 
-/* 特別針對「頂部開場」的高度調整 */
-.header-parallax {
-    height: 60vh; /* 佔螢幕高度的 60% */
-    margin-bottom: 60px; /* 把下面的內容推開 */
-    border-bottom: 4px solid #c0392b; /* 底部加一條紅線裝飾 */
+/* --- 史詩影片開場 (Video Hero) --- */
+.video-hero {
+    position: relative;
+    width: 100%;
+    height: 70vh; /* 佔螢幕高度 70% */
+    overflow: hidden; /* 切掉多餘部分 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 4px solid #c0392b; /* 底部紅線 */
+}
+
+/* 影片本體 */
+#hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%); /* 確保影片永遠置中 */
+    z-index: 1;
+    object-fit: cover; /* 填滿模式 */
+}
+
+/* 黑色遮罩 (讓影片變暗一點，不然字看不見) */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 50% 黑色半透明 */
+    z-index: 2;
+    
+    /* 加一點網格紋理，增加 Animus 感 */
+    background-image: radial-gradient(transparent 20%, #000 120%),
+        linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px);
+    background-size: cover, 4px 4px;
+}
+
+/* 文字內容區 */
+.hero-content {
+    position: relative;
+    z-index: 3; /* 在最上層 */
+    text-align: center;
+    color: #fff;
+}
+
+.hero-content h1 {
+    font-family: "Cinzel", serif;
+    font-size: 60px;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+}
+
+.hero-content .subtitle {
+    font-size: 18px;
+    letter-spacing: 5px;
+    color: #c0392b; /* 刺客紅 */
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 /* 過場上面的文字框 */
@@ -524,11 +594,10 @@ hr {
 
 /* --- Hover 特效：Animus 啟動感 --- */
 .video-card:hover {
-    transform: translateY(-10px); /* 懸浮上升 */
-    border-color: #c0392b; /* 邊框變紅 */
-    
-    /* 紅色數位光暈效果 */
-    box-shadow: 0 15px 40px rgba(192, 57, 43, 0.2);
+    transform: translateY(-10px);
+    /* 讓動畫無限循環執行 */
+    animation: breathe 2s infinite ease-in-out;
+    z-index: 10; /* 確保浮起來時蓋過旁邊的東西 */
 }
 
 /* 4. 影片本體 (Iframe) */
@@ -558,6 +627,112 @@ hr {
 /* Hover 時文字變亮白 */
 .video-card:hover p {
     color: #fff;
+}
+
+/* 定義呼吸動畫 */
+@keyframes breathe {
+    0% { box-shadow: 0 0 15px rgba(192, 57, 43, 0.2); border-color: #c0392b; }
+    50% { box-shadow: 0 0 30px rgba(192, 57, 43, 0.6); border-color: #ff0000; } /* 變亮 */
+    100% { box-shadow: 0 0 15px rgba(192, 57, 43, 0.2); border-color: #c0392b; }
+}
+
+/* --- Animus 掃描線特效 --- */
+body::after {
+    content: "";
+    position: fixed; /* 固定在視窗上 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* 畫出極細的掃描線 */
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    
+    pointer-events: none; /* 關鍵！讓滑鼠可以穿透它點擊下面的按鈕 */
+    z-index: 9999; /* 蓋在最上面 */
+    opacity: 0.7; /* 調整線條明顯程度 */
+}
+
+/* --- Glitch 解碼文字特效 --- */
+.glitch-text {
+    position: relative;
+}
+
+/* 創造兩個重疊的文字層 (紅與藍) */
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text); /* 抓取 HTML 裡的 data-text 屬性 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent; /* 改為透明背景，避免遮擋 */
+}
+
+.glitch-text::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+    left: -2px;
+    text-shadow: -1px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+/* 定義隨機裁切的動畫關鍵影格 */
+@keyframes glitch-anim-1 {
+    0% { clip: rect(30px, 9999px, 10px, 0); }
+    20% { clip: rect(80px, 9999px, 90px, 0); }
+    40% { clip: rect(10px, 9999px, 50px, 0); }
+    60% { clip: rect(40px, 9999px, 20px, 0); }
+    80% { clip: rect(70px, 9999px, 60px, 0); }
+    100% { clip: rect(20px, 9999px, 80px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(10px, 9999px, 80px, 0); }
+    20% { clip: rect(70px, 9999px, 20px, 0); }
+    40% { clip: rect(20px, 9999px, 50px, 0); }
+    60% { clip: rect(60px, 9999px, 10px, 0); }
+    80% { clip: rect(90px, 9999px, 30px, 0); }
+    100% { clip: rect(50px, 9999px, 60px, 0); }
+}
+
+/* --- 粒子樣式 --- */
+.animus-particle {
+    position: fixed; /* 固定在螢幕上，不隨捲動移動 */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    pointer-events: none; /* 讓滑鼠可以穿透 */
+    z-index: 0; /* 在最底層 */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    
+    /* 漂浮動畫 */
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.5; }
+    100% {
+        transform: translateY(-100vh) translateX(20px); /* 往上飄 */
+        opacity: 0;
+    }
 }
 
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
@@ -653,3 +828,4 @@ hr {
     .video-card {
         padding: 10px; /* 手機版邊框薄一點，節省空間 */
     }
+

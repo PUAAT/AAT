@@ -149,53 +149,88 @@ nav ul li a:hover {
 }
 
 /* 5. 遊戲卡片 (CSS Grid 排版) */
-.game-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 完美的 3 欄式佈局 */
-    gap: 20px; /* 卡片間距 */
-    padding: 40px;
-}
-
+/* --- 首頁遊戲卡片：史詩級升級 --- */
 .game-card {
-    border: 1px solid #444;
-    border-radius: 8px; /* 圓角 */
-    padding: 20px;
-    text-align: center;
-    font-family: 'ranade', sans-serif;
-    transition: transform 0.3s; /* 簡易動畫 */
+    /* 讓背景圖變暗，這樣文字才清楚 */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 4px;
+    border: 1px solid #333; /* 預設深色邊框 */
+    overflow: hidden; /* 確保放大時不會凸出去 */
+    
+    /* 設定高度，讓卡片更有份量 */
+    height: 400px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 文字沉在底部 */
+    padding: 30px;
+    
+    /* 陰影與過渡 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.game-card:hover {
-    /* 我們把「上移」和「放大」寫在一起 */
-    transform: translateY(-5px) scale(1.03); /* 往上移 5px 並放大 3% */
-    border-color: #c0392b;
+/* 加上黑色漸層遮罩，讓底部文字清楚 */
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 從透明漸層到黑色 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
+    z-index: 1;
+    transition: opacity 0.4s ease;
 }
-/* 5.1 卡片 Hover 時，遮罩變淡 */
-.game-card:hover::before {
-    /* * 從 50% 透明度 (0.5) 
-     * 變成 20% 透明度 (0.2)
-     * 圖片就會「浮現」出來！
-     */
-    background-color: rgba(0, 0, 0, 0.2);
+
+/* 確保文字浮在遮罩上面 */
+.game-card h2, .game-card p {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 10px black;
+}
+
+.game-card h2 {
+    font-family: "Cinzel", serif;
+    color: #fff;
+    font-size: 28px;
+    margin-bottom: 10px;
+    transform: translateY(0); /* 預設位置 */
+    transition: transform 0.4s ease;
+}
+
+.game-card p {
+    color: #ccc;
+    font-size: 16px;
+    opacity: 0.8;
+    transform: translateY(0);
+    transition: all 0.4s ease;
+}
+
+/* --- Hover 特效 (Animus 啟動) --- */
+.game-card:hover {
+    transform: translateY(-15px) scale(1.02); /* 上浮並微微放大 */
+    border-color: #c0392b; /* 邊框變紅 */
+    box-shadow: 0 20px 50px rgba(192, 57, 43, 0.3); /* 紅色光暈 */
+}
+
+/* Hover 時，背景圖稍微放大 (鏡頭推進感) */
+/* 注意：這需要你原本有設 background-image，如果是在 HTML 裡寫 style="..." 也可以 */
+.game-card:hover {
+    background-size: 110%; /* 背景放大 */
+}
+
+/* Hover 時，文字稍微上移 */
+.game-card:hover h2 {
+    color: #c0392b; /* 標題變紅 */
 }
 
 /* (進階) 幫三張卡片加上各自的背景圖 (需要你自己放圖) */
 #origins { background-image: url('../images/origins-bg.jpg'); }
 #unity { background-image: url('../images/unity-bg.jpg'); }
 #syndicate { background-image: url('../images/syndicate-bg.jpg'); }
-
-/* 5.2 遊戲卡片連結樣式 (升級 1) */
-
-.game-card-link {
-    /* 關鍵：移除 <a> 標籤的預設底線 */
-    text-decoration: none;
-
-    /* 關鍵：讓 <a> 標籤裡的文字顏色「繼承」父層
-     * (也就是繼承我們設定的 #f0f0f0 亮灰色)
-     * 而不是 <a> 標籤預設的藍色
-     */
-    color: inherit; 
-}
 
 /* 6. 頁尾 */
 footer {

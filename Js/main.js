@@ -99,3 +99,32 @@ images.forEach(img => {
         img.style.transition = 'none';
     });
 });
+/* --- Animus 粒子生成器 --- */
+function createParticles() {
+    const body = document.querySelector('body');
+    const particleCount = 50; // 粒子數量
+
+    for (let i = 0; i < particleCount; i++) {
+        let particle = document.createElement('div');
+        particle.classList.add('animus-particle');
+        
+        // 隨機位置與大小
+        let x = Math.random() * 100;
+        let y = Math.random() * 100;
+        let size = Math.random() * 3 + 1; // 1px ~ 4px
+        let duration = Math.random() * 5 + 3; // 3s ~ 8s 動畫時間
+        let delay = Math.random() * 5;
+
+        particle.style.left = x + 'vw';
+        particle.style.top = y + 'vh';
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.animationDuration = duration + 's';
+        particle.style.animationDelay = delay + 's';
+
+        body.appendChild(particle);
+    }
+}
+
+// 啟動粒子
+createParticles();

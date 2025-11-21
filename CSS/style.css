@@ -227,6 +227,16 @@ nav ul li a:hover {
     color: #c0392b; /* 標題變紅 */
 }
 
+.game-grid {
+    display: grid;
+    /* 關鍵：強制分成三欄，每欄一樣寬 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px; /* 卡片之間的空隙 */
+    padding: 40px; /* 整個區塊的內縮 */
+    max-width: 1200px; /* 限制最大寬度，不要讓卡片無限拉長 */
+    margin: 0 auto; /*讓整個區塊置中 */
+}
+
 /* (進階) 幫三張卡片加上各自的背景圖 (需要你自己放圖) */
 #origins { background-image: url('../images/origins-bg.jpg'); }
 #unity { background-image: url('../images/unity-bg.jpg'); }
@@ -255,53 +265,7 @@ nav.scrolled {
  * 在裡面加上 'transition' 這一行
  */
  
-/* 8. 遊戲卡片背景圖 */
 
-/* 幫卡片加上背景圖的通用設定 */
-.game-card {
-    background-size: cover; /* 讓背景圖填滿卡片 */
-    background-position: center; /* 圖片置中 */
-    position: relative; /* 這是為了下一步的「遮罩」做準備 */
-    z-index: 1;
-}
-
-/* * 專業技巧：加上「半透明黑色遮罩」
- * 這樣不管你的背景圖多亮，白色的文字都還是能看清楚
-*/
-.game-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* 這是 50% 透明度 */
-    border-radius: 8px;
-    z-index: 2;
-    transition: background-color 0.3s ease; /* 讓背景色變化有 0.3 秒動畫 */
-}
-
-/* 讓卡片文字浮在「遮罩之上」 */
-.game-card h2, .game-card p {
-    position: relative; /* 讓文字也浮起來 */
-    z-index: 3; /* 確保文字在最上層 */
-}
-
-/* --- 指定三張卡片的圖片 --- */
-
-#origins {
-    background-image: url('../images/origins-bg.jpg');
-    background-position:center 30% ;
-}
-
-#unity {
-    background-image: url('../images/unity-bg.jpg');
-    background-position:top;
-}
-
-#syndicate {
-    background-image: url('../images/syndicate-bg.jpg');
-}
 
 /* --- 子頁面專用樣式 --- */
 
@@ -864,3 +828,12 @@ body::after {
         padding: 10px; /* 手機版邊框薄一點，節省空間 */
     }
 
+/* 強制移除所有遊戲卡片連結的底線 */
+.game-card-link, 
+.game-card-link:hover, 
+.game-card-link:visited, 
+.game-card-link:active {
+    text-decoration: none !important; /* !important 確保絕對生效 */
+    color: inherit; /* 讓文字顏色跟隨卡片設定，不要變藍色/紫色 */
+    display: block; /* 讓連結變成區塊，撐開空間 */
+}

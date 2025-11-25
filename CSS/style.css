@@ -734,6 +734,165 @@ body::after {
     }
 }
 
+/* --- Game Intro 頁面專用樣式 --- */
+
+/* 標題樣式 */
+.intro-title {
+    font-family: "Cinzel", serif;
+    color: #c0392b;
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.intro-desc {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 60px;
+    font-style: italic;
+}
+
+/* === 1. 時間軸 (Timeline) CSS === */
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 畫中間那條線 */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: #c0392b; /* 刺客紅線 */
+    top: 0;
+    bottom: 0;
+    left: 50%; /* 居中 */
+    margin-left: -2px;
+}
+
+/* 時間軸項目容器 */
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%; /* 佔一半寬度 */
+    box-sizing: border-box;
+}
+
+/* 左邊的項目 */
+.left { left: 0; }
+/* 右邊的項目 */
+.right { left: 50%; }
+
+/* 時間軸上的「點點」 */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px; /* 左邊項目的點點位置 */
+    background-color: #0a0a0a;
+    border: 4px solid #c0392b;
+    top: 20px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* 右邊項目的點點位置修正 */
+.right::after {
+    left: -10px; 
+}
+
+/* 時間軸內容框 */
+.timeline-content {
+    padding: 20px 30px;
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    border-color: #c0392b;
+}
+
+.timeline-content h3 {
+    color: #fff;
+    margin-top: 0;
+    font-family: "Cinzel", serif;
+}
+
+.timeline-content h4 {
+    color: #c0392b;
+    margin-bottom: 10px;
+}
+
+/* === 2. 軍械庫 (Arsenal) CSS === */
+.arsenal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.arsenal-card {
+    background: #222;
+    padding: 40px 20px;
+    text-align: center;
+    border: 1px solid #333;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.arsenal-card:hover {
+    background: #1a1a1a;
+    border-color: #c0392b;
+    transform: translateY(-10px);
+}
+
+/* --- 武器圖片優化 --- */
+.arsenal-icon img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    
+    /* 移除之前的 mix-blend-mode (因為我們現在是真的透明圖了) */
+    /* mix-blend-mode: multiply; */ 
+    
+    /* --- 新增：讓武器有立體投影 --- */
+    /* drop-shadow 會沿著武器的「邊緣」產生陰影，而不是產生一個方框 */
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+    
+    transition: transform 0.3s ease;
+}
+
+/* 給圖片加一個發光底座，讓它更像展示品 */
+.arsenal-icon {
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
+    padding: 20px;
+    border-radius: 50%;
+    margin: 0 auto 20px auto; /* 置中 */
+}
+
+/* 滑鼠移上去時，武器稍微浮起來 */
+.arsenal-card:hover .arsenal-icon img {
+    transform: scale(1.1) rotate(5deg); /* 放大並稍微旋轉，很生動 */
+}
+
+.game-tag {
+    display: inline-block;
+    background-color: #c0392b;
+    color: #fff;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 2px;
+    margin-bottom: 15px;
+}
+
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
 @media (max-width: 768px) {
 
@@ -826,6 +985,29 @@ body::after {
     
     .video-card {
         padding: 10px; /* 手機版邊框薄一點，節省空間 */
+    }
+    /* Game Intro 手機版修正 */
+    
+    /* 時間軸線移到最左邊 */
+    .timeline::after {
+        left: 31px;
+    }
+    
+    /* 項目佔滿寬度 */
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px; /* 讓出空間給線 */
+        padding-right: 25px;
+    }
+    
+    /* 修正右邊項目的位置 */
+    .right {
+        left: 0%;
+    }
+    
+    /* 修正點點的位置 */
+    .timeline-item::after {
+        left: 21px; /* 統一在左邊 */
     }
 
 /* 強制移除所有遊戲卡片連結的底線 */

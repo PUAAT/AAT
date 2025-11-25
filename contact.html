@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore History By Assassin's Creed - Home</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo-link">
+    <img src="images/logo.png" alt="Explore History 網站 Logo" class="logo-image">
+</a>
+    <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home Page</a></li> 
+                <li><a href="story.html">Story</a></li> 
+                <li><a href="game-intro.html">Game Intro</a></li> 
+                <li><a href="about.html">About it</a></li> 
+                <li><a href="videos.html">Videos</a></li> 
+                <li><a href="gallery.html">Gallery</a></li> 
+                <li><a href="contact.html">Contact Us</a></li> 
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="parallax-separator header-parallax" style="background-image: url('images/museum-hall.jpg');">
+            <div class="overlay-text" style="flex-direction: column;">
+                <h1>JOIN US</h1>
+                <p style="font-size: 18px; margin-top: 10px; letter-spacing: 3px;">ENCRYPTED CHANNEL</p>
+            </div>
+        </div>
+
+        <div class="container">
+    
+    <section class="intro-section reveal">
+        <h2 class="intro-title" style="color: #c0392b;">SECURE UPLINK</h2>
+        <p style="text-align: center; color: #aaa; max-width: 600px; margin: 0 auto;">
+            ESTABLISHING ENCRYPTED CONNECTION...<br>
+            (正在建立加密連線...)
+        </p>
+    </section>
+
+    <hr class="reveal">
+
+    <div class="contact-wrapper reveal">
+        
+        <div class="intel-panel">
+            <h3>GLOBAL STATUS</h3>
+            
+            <div class="map-container">
+                <img src="images/world-map-tech.jpg" alt="Global Map" class="map-img">
+                <div class="map-point london"></div>
+                <div class="map-point paris"></div>
+                <div class="map-point egypt"></div>
+            </div>
+            
+            <div class="status-list">
+                <div class="status-item">
+                    <span class="status-label">LONDON CELL:</span>
+                    <span class="status-value active">ACTIVE (活躍)</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">PARIS CELL:</span>
+                    <span class="status-value active">ACTIVE (活躍)</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">EGYPT CELL:</span>
+                    <span class="status-value dormant">DORMANT (休眠)</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">ENCRYPTION:</span>
+                    <span class="status-value">AES-256</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-terminal">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="terminal-title">ANIMUS_MESSENGER.exe</span>
+            </div>
+            
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">CODENAME (代號)</label>
+                    <input type="text" id="name" name="name" placeholder="Enter Agent ID..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">FREQUENCY (聯絡信箱)</label>
+                    <input type="email" id="email" name="email" placeholder="agent@brotherhood.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">INTEL (情報內容)</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Type your message..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">TRANSMIT DATA</span>
+                </button>
+                
+                <div id="form-status" class="status-msg"></div>
+            </form>
+        </div>
+
+        </div>
+    </div>
+
+    </main>
+        
+    <footer>
+        <p>&copy; 2025 Explore History By Assassin's Creed. </p>
+    </footer>
+
+    <script src="Js/main.js"></script>
+
+</body>
+</html>

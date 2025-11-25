@@ -781,23 +781,43 @@ body::after {
     box-sizing: border-box;
 }
 
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    right: -10px; top: 20px;
+    border-radius: 50%;
+    z-index: 1;
+    
+    /* 修改：深色底、紅色邊框、發光、脈衝動畫 */
+    background-color: #000;
+    border: 3px solid #c0392b;
+    box-shadow: 0 0 20px #c0392b;
+    animation: timeline-pulse 2s infinite;
+}
+
+/* (新增) 這是脈衝動畫的定義，請貼在附近 */
+@keyframes timeline-pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(192, 57, 43, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 57, 43, 0); }
+}
+
 /* 左邊的項目 */
 .left { left: 0; }
 /* 右邊的項目 */
 .right { left: 50%; }
 
 /* 時間軸上的「點點」 */
-.timeline-item::after {
+.timeline::after {
     content: '';
     position: absolute;
-    width: 20px;
-    height: 20px;
-    right: -10px; /* 左邊項目的點點位置 */
-    background-color: #0a0a0a;
-    border: 4px solid #c0392b;
-    top: 20px;
-    border-radius: 50%;
-    z-index: 1;
+    /* 修改：變寬一點，並加上發光陰影 */
+    width: 4px;
+    background: linear-gradient(to bottom, transparent, #c0392b, #c0392b, transparent);
+    box-shadow: 0 0 15px #c0392b, 0 0 30px #c0392b; 
+    
+    top: 0; bottom: 0; left: 50%; margin-left: -2px;
 }
 
 /* 右邊項目的點點位置修正 */
@@ -808,16 +828,22 @@ body::after {
 /* 時間軸內容框 */
 .timeline-content {
     padding: 20px 30px;
-    background-color: #111;
-    border: 1px solid #333;
     border-radius: 4px;
     position: relative;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     transition: transform 0.3s ease;
+    
+    /* 修改：半透明玻璃質感、加上左側裝飾線 */
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #c0392b;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
+/* 修改 Hover 效果 */
 .timeline-content:hover {
-    transform: translateY(-5px);
+    transform: scale(1.02) translateX(10px);
+    background: rgba(192, 57, 43, 0.1); /* 微微變紅 */
     border-color: #c0392b;
 }
 
@@ -840,18 +866,65 @@ body::after {
 }
 
 .arsenal-card {
-    background: #222;
-    padding: 40px 20px;
-    text-align: center;
+    /* 修改：背景改為工程網格圖案 */
+    background-color: #0f0f0f;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    
     border: 1px solid #333;
     border-radius: 4px;
+    padding: 40px 20px;
+    text-align: center;
     transition: all 0.3s ease;
+    
+    position: relative; /* 為了讓裝飾框定位 */
+    overflow: hidden;   /* 確保特效不跑出去 */
+}
+
+/* 新增：四個角落的科技裝飾框 */
+.arsenal-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    
+    /* 複雜的漸層語法畫出四個角落 */
+    background: 
+        linear-gradient(to right, #c0392b 2px, transparent 2px) 0 0,
+        linear-gradient(to bottom, #c0392b 2px, transparent 2px) 0 0,
+        linear-gradient(to left, #c0392b 2px, transparent 2px) 100% 0,
+        linear-gradient(to bottom, #c0392b 2px, transparent 2px) 100% 0,
+        linear-gradient(to right, #c0392b 2px, transparent 2px) 0 100%,
+        linear-gradient(to top, #c0392b 2px, transparent 2px) 0 100%,
+        linear-gradient(to left, #c0392b 2px, transparent 2px) 100% 100%,
+        linear-gradient(to top, #c0392b 2px, transparent 2px) 100% 100%;
+        
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+/* 新增：Hover 時框框變亮並內縮 */
+.arsenal-card:hover::before {
+    opacity: 1;
+    transform: scale(0.95);
 }
 
 .arsenal-card:hover {
     background: #1a1a1a;
     border-color: #c0392b;
     transform: translateY(-10px);
+}
+
+.arsenal-card h3 {
+    /* 修改：換字體、加發光 */
+    font-family: "Cinzel", serif;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    margin-bottom: 10px;
 }
 
 /* --- 武器圖片優化 --- */
@@ -870,12 +943,31 @@ body::after {
     transition: transform 0.3s ease;
 }
 
-/* 給圖片加一個發光底座，讓它更像展示品 */
+/* --- 軍械庫圖示底座升級 --- */
 .arsenal-icon {
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
-    padding: 20px;
+    position: relative; /* 為了定位 */
+    z-index: 1;
+    /* 移除原本的簡單背景，改用放射狀漸層 (Radial Gradient) */
+    /* 中心亮白 -> 向外變透明 -> 最外圍消失 */
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 70%);
+    
+    width: 200px; /* 給它一個固定的發光範圍 */
+    height: 200px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    margin: 0 auto 20px auto; /* 置中 */
+    
+    /* 加上一個微弱的脈衝動畫 */
+    animation: pulse-glow 3s infinite ease-in-out;
+}
+
+/* 定義脈衝動畫 */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.05); }
+    50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.2); }
+    100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.05); }
 }
 
 /* 滑鼠移上去時，武器稍微浮起來 */
@@ -891,6 +983,801 @@ body::after {
     font-size: 12px;
     border-radius: 2px;
     margin-bottom: 15px;
+}
+
+/* --- 虛實對照區 --- */
+.history-card {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    padding: 0; /* 移除內距，讓圖片貼邊 */
+    display: grid;
+    /* 修改比例：讓圖片各佔一半，中間不留空隙 */
+    grid-template-columns: 1fr 1fr; 
+    gap: 0; /* 移除間距，讓圖片無縫接合 */
+    
+    position: relative; /* 為了定位 VS */
+    margin-bottom: 60px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* 稍微調整圖片容器，讓它們看起來像左右對決 */
+.image-comparison {
+    position: relative; /* 關鍵！把標籤鎖在這個框框裡 */
+    
+    border-radius: 0;
+    height: 300px;
+    overflow: hidden; /* 建議加上這個，確保圖片放大時不會凸出去 */
+}
+
+.image-comparison img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%); /* 真實照片用黑白，更有歷史感 */
+    transition: filter 0.5s ease;
+}
+
+.image-comparison:hover img {
+    filter: grayscale(0%); /* 滑鼠移過去變彩色 */
+}
+
+.game-img {
+    filter: none !important; /* 遊戲畫面保持彩色 */
+}
+
+.label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: #c0392b;
+    color: #fff;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* 修改 VS 標籤 */
+.vs-badge {
+    color: #fff;
+    font-family: "Cinzel", serif;
+    font-weight: bold;
+    font-style: italic;
+    
+    /* 變成圓形按鈕 */
+    width: 50px;
+    height: 50px;
+    background-color: #c0392b; /* 刺客紅 */
+    border-radius: 50%;
+    
+    /* 讓文字置中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* 發光特效 */
+    box-shadow: 0 0 20px rgba(192, 57, 43, 0.6);
+    z-index: 2; /* 確保浮在最上面 */
+    
+    /* 微微放大 */
+    font-size: 18px;
+
+    position: absolute;
+    top: 35%; /* 調整到圖片的高度中間 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* 其他樣式保留上面升級1的設定 */
+}
+
+/* --- 史詩升級：全息數據面板 --- */
+.history-info {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 0; /* 讓它緊貼圖片 */
+    padding: 30px;
+    
+    /* 關鍵：半透明玻璃質感 */
+    background: linear-gradient(180deg, rgba(20,20,20,0.9) 0%, rgba(192, 57, 43, 0.1) 100%);
+    border: 1px solid rgba(192, 57, 43, 0.3); /* 微微發紅的邊框 */
+    border-top: 4px solid #c0392b; /* 頂部加粗紅線 */
+    
+    /* 加上科技感陰影 */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    
+    position: relative;
+    z-index: 10;
+}
+
+/* 讓標題更亮 */
+.history-info h3 {
+    font-family: "Cinzel", serif;
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 文字發光 */
+    margin-bottom: 15px;
+    letter-spacing: 4px;
+}
+
+.history-info p {
+    color: #aaa;
+    font-size: 16px;
+    max-width: 800px; /* 限制文字寬度，比較好讀 */
+    margin: 0 auto; /* 區塊置中 */
+    line-height: 1.6;
+}
+
+/* --- 史詩升級：Animus 掃描線 --- */
+
+/* 只針對右邊的「遊戲圖」加掃描線 */
+/* 我們用 :last-of-type 選中第二個 .image-comparison (也就是右邊那個) */
+.history-card .image-comparison:last-of-type::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px; /* 掃描線厚度 */
+    background-color: #c0392b; /* 刺客紅 */
+    
+    /* 讓線條發光 */
+    box-shadow: 0 0 10px #c0392b, 0 0 20px #c0392b;
+    
+    /* 啟動掃描動畫 */
+    animation: animus-scan 3s infinite linear;
+    opacity: 0.8;
+    z-index: 5;
+}
+
+/* 定義掃描動畫：從上跑到下 */
+@keyframes animus-scan {
+    0% { top: -10%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+}
+
+/* --- 史詩升級：歷史檔案質感 --- */
+
+/* 針對左邊的圖 (first-of-type) */
+.history-card .image-comparison:first-of-type {
+    /* 加上內陰影，製造舊照片邊緣發黑的感覺 */
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.8); 
+}
+
+/* 讓左邊圖片帶一點點復古黃色，而不只是死黑白 */
+.history-card .image-comparison:first-of-type img {
+    filter: grayscale(100%) sepia(20%) contrast(1.2);
+}
+
+/* --- Gallery 瀑布流排版 (Masonry) --- */
+
+.gallery-masonry {
+    column-count: 3; /* 分成 3 欄 */
+    column-gap: 20px; /* 欄位間距 */
+}
+
+.gallery-item {
+    break-inside: avoid; /* 防止圖片被切斷 */
+    margin-bottom: 20px; /* 圖片下方間距 */
+    position: relative; /* 為了放文字說明 */
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #333;
+    background-color: #000;
+    
+    /* 初始狀態：稍微低飽和度 (復古感) */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(30%) brightness(0.9); /* 預設稍微暗一點 */
+    transition: all 0.5s ease;
+}
+
+/* --- Hover 特效 (史詩感互動) --- */
+.gallery-item:hover {
+    transform: translateY(-10px); /* 浮起來 */
+    box-shadow: 0 15px 30px rgba(192, 57, 43, 0.4); /* 強烈紅光 */
+    border-color: #c0392b;
+    z-index: 10;
+}
+
+/* --- 史詩升級：RGB 錯位故障特效 --- */
+
+/* 修改原本的 item 設定，加上 overflow: visible 讓特效可以溢出 */
+.gallery-item {
+    /* ...保留原本設定... */
+    overflow: visible !important; /* 重要！ */
+}
+
+/* 定義故障動畫 */
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+    40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+    80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+    100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+}
+
+/* Hover 時產生兩個「幻影」層 */
+.gallery-item:hover::before,
+.gallery-item:hover::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: inherit; /* 繼承背景 */
+    z-index: -1;
+}
+
+/* 紅色幻影 */
+.gallery-item:hover::before {
+    background-image: inherit; /* 這裡需要 JS 輔助，或是我們用簡單版 border */
+    box-shadow: -5px 0 #ff00c1;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    opacity: 0.7;
+}
+
+/* 藍色幻影 */
+.gallery-item:hover::after {
+    box-shadow: 5px 0 #00fff9;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    opacity: 0.7;
+}
+
+/* 圖片本體變亮 */
+.gallery-item:hover img {
+    filter: grayscale(0%) contrast(1.2) brightness(1.2);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(192, 57, 43, 0.5);
+}
+
+/* --- 文字說明 (Caption) --- */
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    /* 黑底漸層，讓文字清晰 */
+    background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+    
+    color: #fff;
+    font-family: "Cinzel", serif;
+    text-align: center;
+    letter-spacing: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 2px 5px black;
+    
+    /* 預設隱藏 */
+    opacity: 0;
+    transform: translateY(20px); 
+    transition: all 0.4s ease;
+}
+
+/* Hover 時文字浮現 */
+.gallery-item:hover .gallery-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 在圖片上方加一層網格紋理 */
+.gallery-item::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    
+    /* 極細的掃描線 */
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.2),
+        rgba(0,0,0,0.2) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    
+    pointer-events: none; /* 讓滑鼠點得到下面的圖片 */
+    z-index: 2;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+/* Hover 時網格消失，讓圖片變清楚 */
+.gallery-item:hover::after {
+    opacity: 0;
+}
+
+/* --- Gallery Hover 特效 (修復版) --- */
+
+/* 1. 確保容器設定正確 */
+.gallery-item {
+    overflow: hidden; /* 確保放大時不會凸出去 */
+    position: relative;
+    background-color: #000;
+    transition: all 0.4s ease;
+}
+
+/* 2. 圖片本體特效：變亮 + 放大 + 稍微轉動 */
+.gallery-item:hover img {
+    filter: grayscale(0%) contrast(1.1) brightness(1.1); /* 變回彩色且更鮮豔 */
+    transform: scale(1.1) rotate(1deg); /* 鏡頭推進感 */
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 3. 卡片外框發光 (Animus Red) */
+.gallery-item:hover {
+    border-color: #c0392b;
+    box-shadow: 0 10px 30px rgba(192, 57, 43, 0.4); /* 紅色光暈 */
+    z-index: 5; /* 浮在最上面 */
+}
+
+/* 4. 修正掃描線 (確保它滑鼠移上去會消失，不會擋路) */
+.gallery-item:hover::after {
+    opacity: 0; /* 掃描線淡出 */
+}
+
+/* --- 燈箱 (Lightbox) 樣式 --- */
+.lightbox {
+    display: none; /* 預設隱藏 */
+    position: fixed; 
+    z-index: 9999; /* 最上層 */
+    padding-top: 50px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.95); /* 極深黑底 */
+    backdrop-filter: blur(10px); /* 背景模糊 */
+}
+
+/* 燈箱內的圖片 */
+.lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1200px; /* 最大寬度 */
+    max-height: 80vh;
+    object-fit: contain;
+    border: 2px solid #c0392b; /* 刺客紅邊框 */
+    box-shadow: 0 0 50px rgba(192, 57, 43, 0.5); /* 紅色光暈 */
+    animation: zoomIn 0.3s; /* 彈出動畫 */
+}
+
+@keyframes zoomIn {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* 關閉按鈕 */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: #c0392b;
+}
+
+/* 燈箱文字 */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    font-family: "Cinzel", serif;
+    letter-spacing: 2px;
+}
+
+/* --- About 頁面：AAT 團隊檔案 --- */
+
+.team-grid {
+    display: grid;
+    /* 自動適應：最少 300px 寬，空間夠就自動並排 */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.team-card {
+    background-color: #0a0a0a; /* 深黑底 */
+    border: 1px solid #333;
+    /* 頂部有紅色雷射條，很有科技感 */
+    border-top: 4px solid #c0392b; 
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    
+    /* 加上微微的掃描線背景 */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 5px;
+    
+    transition: all 0.3s ease;
+}
+
+/* Hover 特效：浮起 + 發光 */
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(192, 57, 43, 0.3);
+    border-color: #c0392b;
+}
+
+/* 圓形頭像框 */
+.member-img {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    border: 3px solid #333;
+    padding: 5px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: #000;
+}
+
+.member-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: grayscale(100%); /* 預設黑白，像舊檔案 */
+    transition: filter 0.3s;
+}
+
+/* Hover 時變彩色 */
+.team-card:hover .member-img img {
+    filter: grayscale(0%);
+}
+
+.team-card:hover .member-img {
+    border-color: #c0392b; /* 框框變紅 */
+}
+
+/* 文字樣式 */
+.member-info h3 {
+    font-family: "Cinzel", serif;
+    color: #fff;
+    margin-bottom: 5px;
+    font-size: 24px;
+    letter-spacing: 2px;
+}
+
+.role {
+    display: inline-block;
+    font-size: 12px;
+    color: #c0392b; /* 紅色職稱 */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+.member-info p {
+    color: #aaa;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* --- RPG 能力條樣式 --- */
+.stats-container {
+    margin-top: 20px;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+}
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    /* 移除原本的 justify-content: space-between; */
+    /* 改用 gap 直接推開兩者距離 */
+    gap: 15px; 
+    margin-bottom: 10px;
+    font-family: "Arial", sans-serif;
+    font-size: 12px;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+.stat-row span {
+    /* 關鍵修改 1：加大寬度，讓 "ARCHITECTURE" 這種長單字放得下 */
+    width: 130px; 
+    
+    /* 關鍵修改 2：告訴瀏覽器「絕對不要壓縮文字區塊」 */
+    flex-shrink: 0; 
+    
+    text-align: left;
+    font-weight: bold; /* 讓標題清楚一點 */
+    color: #fff; /* 改成白色，比較好讀 */
+}
+
+.progress-bar {
+    flex-grow: 1; /* 填滿剩餘空間 */
+    height: 6px;
+    background-color: #222;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    background-color: #c0392b; /* 刺客紅 */
+    box-shadow: 0 0 10px #c0392b; /* 發光 */
+    /* 載入動畫：從 0 跑到設定寬度 */
+    animation: fillBar 1.5s ease-out forwards;
+    width: 0; /* 預設 0，由 JS 或 inline style 控制 */
+}
+
+@keyframes fillBar {
+    from { width: 0; }
+}
+
+/* --- 大頭貼雜訊故障特效 (Hologram Glitch) --- */
+.member-img {
+    position: relative;
+}
+
+/* 創造紅藍色偏的幻影 */
+.team-card:hover .member-img::before,
+.team-card:hover .member-img::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 50%;
+    background: inherit;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.team-card:hover .member-img::before {
+    border: 2px solid red;
+    transform: translate(-3px, 0);
+    animation: glitch-anim-1 0.3s infinite;
+}
+
+.team-card:hover .member-img::after {
+    border: 2px solid blue;
+    transform: translate(3px, 0);
+    animation: glitch-anim-2 0.3s infinite;
+}
+
+/* 故障動畫關鍵影格 */
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); }
+    20% { clip-path: inset(60% 0 10% 0); }
+    40% { clip-path: inset(40% 0 50% 0); }
+    60% { clip-path: inset(80% 0 5% 0); }
+    80% { clip-path: inset(10% 0 70% 0); }
+    100% { clip-path: inset(30% 0 50% 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 90% 0); }
+    20% { clip-path: inset(30% 0 10% 0); }
+    40% { clip-path: inset(50% 0 30% 0); }
+    60% { clip-path: inset(10% 0 20% 0); }
+    80% { clip-path: inset(40% 0 30% 0); }
+    100% { clip-path: inset(20% 0 60% 0); }
+}
+
+/* --- Contact 頁面：終端機風格 --- */
+
+.contact-terminal {
+    max-width: 600px;
+    margin: 0 auto 60px auto;
+    background-color: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    overflow: hidden; /* 讓圓角生效 */
+}
+
+/* 模擬視窗頂部欄 */
+.terminal-header {
+    background-color: #1a1a1a;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.red { background-color: #ff5f56; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #27c93f; }
+
+.terminal-title {
+    margin-left: 10px;
+    font-family: "Courier New", monospace; /* 等寬字體 */
+    font-size: 12px;
+    color: #888;
+}
+
+/* 表單區域 */
+#contact-form {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    color: #c0392b; /* 刺客紅 */
+    font-family: "Cinzel", serif;
+    margin-bottom: 10px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+/* 輸入框樣式 */
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-bottom: 2px solid #333;
+    padding: 10px;
+    color: #fff;
+    font-family: "Courier New", monospace; /* 打字機字體 */
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Focus 時發光 */
+.form-group input:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-bottom-color: #c0392b;
+    background-color: rgba(192, 57, 43, 0.1);
+    box-shadow: 0 5px 10px rgba(192, 57, 43, 0.1);
+}
+
+/* 按鈕樣式 */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #c0392b;
+    border: none;
+    color: #fff;
+    font-family: "Cinzel", serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn:hover {
+    background-color: #a93226;
+    letter-spacing: 5px; /* Hover 時字距拉開 */
+    box-shadow: 0 0 20px rgba(192, 57, 43, 0.6);
+}
+
+/* 狀態訊息 */
+.status-msg {
+    margin-top: 20px;
+    text-align: center;
+    font-family: "Courier New", monospace;
+    color: #27c93f; /* 成功綠 */
+    min-height: 20px;
+}
+
+/* --- Contact 頁面：史詩級情報中心 --- */
+
+/* 1. 雙欄佈局設定 */
+.contact-wrapper {
+    display: grid;
+    /* 左邊佔 1 份，右邊佔 1.5 份 (右邊寬一點比較好填寫) */
+    grid-template-columns: 1fr 1.5fr; 
+    gap: 40px; /* 中間的間距 */
+    align-items: start;
+    margin-bottom: 80px;
+}
+
+/* 2. 左側：情報面板 */
+.intel-panel {
+    background-color: #0f0f0f;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.intel-panel h3 {
+    font-family: "Cinzel", serif;
+    color: #fff;
+    border-bottom: 2px solid #c0392b; /* 紅色底線 */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* 地圖容器 */
+.map-container {
+    position: relative; /* 為了讓紅點定位 */
+    margin-bottom: 20px;
+    border: 1px solid #444;
+    overflow: hidden;
+}
+
+.map-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.7;
+    /* 加上綠色夜視鏡濾鏡，超帥 */
+    filter: sepia(100%) hue-rotate(90deg) saturate(150%) contrast(1.2);
+}
+
+/* 地圖上的閃爍紅點 */
+.map-point {
+    position: absolute;
+    width: 8px; height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    box-shadow: 0 0 10px red;
+    animation: blink 1s infinite;
+}
+.london { top: 28%; left: 48%; } /* 大概位置，可微調 */
+.paris { top: 32%; left: 49%; }
+.egypt { top: 45%; left: 55%; }
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 3. 狀態列表 */
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    border-bottom: 1px dashed #333;
+    padding-bottom: 5px;
+}
+
+.status-label { color: #aaa; }
+.status-value.active { color: #27c93f; text-shadow: 0 0 5px #27c93f; } /* 綠色發光 */
+.status-value.dormant { color: #c0392b; } /* 紅色 */
+
+/* 4. 右側：終端機修正 */
+.contact-terminal {
+    margin: 0; /* 移除原本的置中，讓它填滿格子 */
+    width: 100%;
+    /* 沿用之前的樣式，這裡不需要重寫 */
+}
+
+/* 5. 手機版修正 (變成上下排列) */
+@media (max-width: 768px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr; /* 變單欄 */
+    }
+    .intel-panel {
+        order: 2; /* 手機上讓地圖跑到下面去 */
+    }
+    .contact-terminal {
+        order: 1; /* 表單在上面 */
+    }
 }
 
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
@@ -1008,6 +1895,31 @@ body::after {
     /* 修正點點的位置 */
     .timeline-item::after {
         left: 21px; /* 統一在左邊 */
+    }
+
+    /* 手機版修正 */
+@media (max-width: 768px) {
+    .history-card {
+        grid-template-columns: 1fr; /* 手機變垂直排列 */
+        text-align: center;
+    }
+    .vs-badge {
+        transform: rotate(90deg); /* VS 轉向 */
+        margin: 10px 0;
+    }
+}
+
+/* --- 手機版修正 --- */
+@media (max-width: 768px) {
+    .gallery-masonry {
+        column-count: 1; /* 手機改為單欄 */
+    }
+}
+
+/* Team 手機版 */
+    .team-grid {
+        grid-template-columns: 1fr; /* 手機強制一欄 */
+        padding: 0 20px;
     }
 
 /* 強制移除所有遊戲卡片連結的底線 */

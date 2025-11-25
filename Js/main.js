@@ -138,49 +138,64 @@ const closeBtn = document.querySelector('.close-btn');
 // 抓取所有藝廊圖片
 const galleryImages = document.querySelectorAll('.gallery-item img');
 
-galleryImages.forEach(img => {
-    img.addEventListener('click', function() {
-        lightbox.style.display = "block";
-        lightboxImg.src = this.src; // 把大圖換成被點擊的圖
-        // 抓取圖片下方的文字當作說明
-        const caption = this.nextElementSibling.innerText; 
-        captionText.innerHTML = caption;
+// 🔥 關鍵修改：加這行 if 檢查
+// 意思：只有當網頁裡真的有 lightbox 和 closeBtn 時，才執行下面的程式
+if (lightbox && closeBtn) {
+
+    galleryImages.forEach(img => {
+        img.addEventListener('click', function() {
+            lightbox.style.display = "block";
+            lightboxImg.src = this.src;
+            
+            // 抓取說明文字
+            const captionDiv = this.nextElementSibling;
+            if (captionDiv) {
+                captionText.innerHTML = captionDiv.innerText;
+            } else {
+                captionText.innerHTML = "";
+            }
+        });
     });
-});
 
-// 關閉功能
-closeBtn.onclick = function() {
-    lightbox.style.display = "none";
-}
-
-// 點擊背景也可以關閉
-lightbox.onclick = function(e) {
-    if (e.target !== lightboxImg) {
+    // 關閉功能
+    closeBtn.onclick = function() {
         lightbox.style.display = "none";
     }
-}
 
-/* --- Contact 表單功能 (整合 Formspree) --- */
+    // 點擊背景也可以關閉
+    lightbox.onclick = function(e) {
+        if (e.target !== lightboxImg) {
+            lightbox.style.display = "none";
+        }
+    }
+
+} // End of lightbox check
+
+/* --- Debug 版本：Contact 表單功能 --- */
 const contactForm = document.getElementById('contact-form');
 const statusMsg = document.getElementById('form-status');
 const submitBtn = document.querySelector('.submit-btn');
 const btnText = document.querySelector('.btn-text');
 
+// 測試 1: 確認 JS 有抓到表單
 if (contactForm) {
-    contactForm.addEventListener('submit', async function(e) {
-        e.preventDefault(); // 1. 阻止網頁重新整理
+    console.log("✅ 成功抓到表單元素！監聽器已啟動。");
 
-        // 2. 改變按鈕：顯示加密中...
+    contactForm.addEventListener('submit', async function(e) {
+        console.log("⚡ 觸發 Submit 事件！正在阻止預設刷新...");
+        e.preventDefault(); // 這是最關鍵的一行，阻止刷新
+
+        console.log("🔒 正在準備發送...");
+        
+        // 改變按鈕狀態
         btnText.innerText = "ENCRYPTING DATA...";
         submitBtn.style.opacity = "0.7";
         submitBtn.style.cursor = "wait";
 
-        // 3. 抓取表單資料
         const data = new FormData(contactForm);
 
         try {
-            // 4. 發送資料到 Formspree
-            // 🔥【重要】請把下面的網址換成你在 步驟 1 拿到的網址！
+            // 記得確認這裡的網址是對的
             const response = await fetch("https://formspree.io/f/xdkvwbdy", {
                 method: "POST",
                 body: data,
@@ -189,25 +204,23 @@ if (contactForm) {
                 }
             });
 
-            // 5. 判斷結果
             if (response.ok) {
-                // 成功！
-                statusMsg.innerHTML = "<span style='color:#27c93f'>> DATA SENT SUCCESSFULLY.<br>> THE BROTHERHOOD WILL CONTACT YOU.</span>";
-                contactForm.reset(); // 清空表格
-                btnText.innerText = "TRANSMIT DATA"; // 按鈕復原
+                console.log("🚀 發送成功！");
+                statusMsg.innerHTML = "<span style='color:#27c93f'>> DATA SENT SUCCESSFULLY.</span>";
+                contactForm.reset();
+                btnText.innerText = "TRANSMIT DATA";
             } else {
-                // 失敗 (Formspree 回傳錯誤)
+                console.log("❌ 發送失敗：Formspree 回傳錯誤");
                 statusMsg.innerHTML = "<span style='color:#c0392b'>> ERROR: TRANSMISSION FAILED.</span>";
-                btnText.innerText = "RETRY";
             }
         } catch (error) {
-            // 網路錯誤
+            console.log("❌ 發送失敗：網路錯誤");
             statusMsg.innerHTML = "<span style='color:#c0392b'>> ERROR: NETWORK OFFLINE.</span>";
-            btnText.innerText = "RETRY";
         }
         
-        // 復原按鈕狀態
         submitBtn.style.opacity = "1";
         submitBtn.style.cursor = "pointer";
     });
+} else {
+    console.error("❌ 找不到 id='contact-form' 的元素！請檢查 HTML。");
 }

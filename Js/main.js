@@ -224,3 +224,52 @@ if (contactForm) {
 } else {
     console.error("❌ 找不到 id='contact-form' 的元素！請檢查 HTML。");
 }
+
+/* --- 戰術游標跟隨與互動 --- */
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
+
+// 只有在電腦版才執行 (檢查是否有游標元素)
+if (cursorDot && cursorOutline) {
+    
+    // 1. 跟隨滑鼠
+    window.addEventListener('mousemove', function(e) {
+        const posX = e.clientX;
+        const posY = e.clientY;
+
+        // 實心點直接跟隨 (無延遲)
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+
+        // 外框延遲跟隨 (增加滑順感)
+        cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+        }, { duration: 500, fill: "forwards" });
+    });
+
+    // 2. 互動偵測 (連結、按鈕)
+    const hoverables = document.querySelectorAll('a, button, .gallery-item, .video-card, .team-card');
+
+    hoverables.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            document.body.classList.add('hovering'); // 變大
+        });
+        el.addEventListener('mouseleave', () => {
+            document.body.classList.remove('hovering'); // 變回原狀
+        });
+    });
+}
+
+/* --- 捲動進度條計算 --- */
+const progressBar = document.querySelector('.scroll-progress');
+
+if (progressBar) {
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        
+        progressBar.style.width = scrolled + "%";
+    });
+}

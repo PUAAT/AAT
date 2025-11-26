@@ -1780,6 +1780,34 @@ body::after {
     }
 }
 
+/* --- 頁尾升級 --- */
+footer {
+    background-color: #050505;
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid #333;
+    margin-top: 50px;
+}
+
+.footer-logo {
+    width: 40px;
+    opacity: 0.5;
+    margin-bottom: 10px;
+    transition: opacity 0.3s;
+}
+
+footer:hover .footer-logo { opacity: 1; }
+
+.footer-links a {
+    color: #c0392b;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.footer-links a:hover { text-decoration: underline; }
+
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
 @media (max-width: 768px) {
 
@@ -1930,4 +1958,58 @@ body::after {
     text-decoration: none !important; /* !important 確保絕對生效 */
     color: inherit; /* 讓文字顏色跟隨卡片設定，不要變藍色/紫色 */
     display: block; /* 讓連結變成區塊，撐開空間 */
+}
+
+/* --- Animus 戰術游標 --- */
+.cursor-dot, 
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none; /* 關鍵：讓滑鼠可以穿透它點擊 */
+}
+
+/* 中心實心點 */
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #c0392b; /* 刺客紅 */
+}
+
+/* 外圈瞄準框 */
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+/* 當滑鼠移到連結上時的變化 (由 JS 控制) */
+body.hovering .cursor-outline {
+    width: 60px;
+    height: 60px;
+    border-color: #c0392b;
+    background-color: rgba(192, 57, 43, 0.1); /* 淡淡的紅色背景 */
+    mix-blend-mode: exclusion; /* 酷炫的濾鏡效果 */
+}
+
+/* 手機版隱藏 (手機沒有滑鼠) */
+@media (max-width: 768px) {
+    .cursor-dot, .cursor-outline { display: none; }
+}
+
+/* --- 頂部讀取進度條 --- */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%; /* 預設 0，由 JS 控制 */
+    height: 3px;
+    background: #c0392b; /* 刺客紅 */
+    box-shadow: 0 0 10px #c0392b; /* 發光 */
+    z-index: 10000; /* 確保在最上層 */
+    transition: width 0.1s;
 }

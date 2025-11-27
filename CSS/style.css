@@ -37,8 +37,10 @@
 /* 2. 基礎風格 (深色刺客風格) */
 /* 找到你原本的 body 設定，用下面這段替換 */
 body {
-    font-family: Arial, "Helvetica Neue", "微軟正黑體", sans-serif;
+    /* 預設使用 Rajdhani (科技感)，如果沒有就用 Arial */
+    font-family: 'Rajdhani', sans-serif; 
     color: #f0f0f0;
+    /* ... 其他 body 設定保持不變 ... */
     
     /* --- 史詩級 Animus 背景 --- */
     background-color: #0a0a0a; /* 深黑底色 */
@@ -59,6 +61,19 @@ body {
         
     background-color: #0a0a0a; /* 確保底色還是黑的 */
     background-attachment: fixed; /* 讓網格固定不動，製造深邃感 */
+}
+
+/* --- Level 5000: 全站字體升級 --- */
+
+/* 1. 設定所有標題使用史詩字體 (Cinzel) */
+h1, h2, h3, h4, h5, h6, 
+.video-title, .terminal-title, .intro-title {
+    font-family: 'Cinzel', serif;
+}
+
+/* 2. 設定內文使用科技字體 (Rajdhani) */
+body, p, span, a, input, button, textarea {
+    font-family: 'Rajdhani', sans-serif;
 }
 
 /* 3. 裝潢導覽列 (nav) - (舊區塊修改) */
@@ -137,7 +152,6 @@ nav ul li a:hover {
 
 .hero h1 {
     font-size: 54px;
-    font-family:'Ranade', sans-serif;
     text-shadow: 2px 2px 4px #000;
     position: relative;
     z-index: 3; 
@@ -1960,6 +1974,126 @@ body.eagle-vision .secret-message {
     0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
     50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
     100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* --- Level 6: 駭客小遊戲樣式 --- */
+
+/* 1. 啟動按鈕 (在 Footer) */
+.footer-hack {
+    margin-top: 20px;
+}
+
+.glitch-btn {
+    background: transparent;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    padding: 5px 15px;
+    font-family: "Courier New", monospace;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.glitch-btn:hover {
+    background: #c0392b;
+    color: #000;
+    box-shadow: 0 0 10px #c0392b;
+}
+
+/* 2. 遊戲遮罩 (預設隱藏) */
+.hack-overlay {
+    display: none; /* 隱藏 */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+/* 3. 終端機視窗 */
+.hack-terminal {
+    width: 90%;
+    max-width: 500px;
+    background: #000;
+    border: 2px solid #c0392b;
+    box-shadow: 0 0 50px rgba(192, 57, 43, 0.5);
+    animation: popup 0.3s ease-out;
+}
+
+.hack-header {
+    background: #c0392b;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.hack-title {
+    color: #000;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+.hack-screen {
+    padding: 30px;
+    text-align: center;
+    color: #c0392b;
+    font-family: "Courier New", monospace;
+}
+
+/* 4. 遊戲元素 */
+#sequence-display {
+    font-size: 24px;
+    margin: 20px 0;
+    height: 40px;
+    color: #fff;
+    text-shadow: 0 0 10px #fff;
+}
+
+.hack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.glyph-btn {
+    background: #111;
+    border: 1px solid #333;
+    color: #555;
+    font-size: 24px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+/* 激活狀態 (亮起來) */
+.glyph-btn.active {
+    background: #c0392b;
+    color: #fff;
+    box-shadow: 0 0 20px #c0392b;
+    border-color: #fff;
+}
+
+.hack-controls button {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-family: monospace;
+}
+
+.hack-controls button:hover {
+    background: #555;
+}
+
+@keyframes popup {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 /* 9s. 響應式設計 (RWD) - 手機版修正 */

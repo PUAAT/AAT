@@ -26,6 +26,9 @@
     <meta name="theme-color" content="#c0392b">
 
     <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="manifest" href="manifest.json">
 </head>
@@ -116,12 +119,34 @@
             <a href="contact.html">Uplink</a>
         </div>
     </div>
+    <div class="footer-hack">
+        <button id="start-hack-btn" class="glitch-btn">⚠ DECRYPT SYSTEM ⚠</button>
+    </div>
     <audio id="sfx-hover" src="audio/hover.wav" preload="auto"></audio>
     <audio id="sfx-click" src="audio/click.wav" preload="auto"></audio>
     <audio id="sfx-eagle" src="audio/eagle_vision.mp3" preload="auto"></audio>
 </footer>
     <div class="secret-message">TARGET IDENTIFIED</div>
-    <script src="Js/main.js"></script>
-
+    <div id="hack-overlay" class="hack-overlay">
+        <div class="hack-terminal">
+            <div class="hack-header">
+                <span class="hack-dot"></span>
+                <span class="hack-title">ANIMUS_SECURITY_PROTOCOL.exe</span>
+            </div>
+            
+            <div class="hack-screen">
+                <h2 id="hack-msg">SYSTEM LOCKED</h2>
+                <p>MEMORIZE THE SEQUENCE</p>
+                <div id="sequence-display">READY?</div>
+                <div id="hack-grid" class="hack-grid"></div>
+                
+                <div class="hack-controls">
+                    <button id="start-game-btn">INITIATE SEQUENCE</button>
+                    <button id="close-hack-btn">ABORT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="Js/main.js"></script>
 </body>
 </html>

@@ -407,3 +407,176 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.log('Service Worker 註冊失敗：', err));
     });
 }
+
+/* --- Level 6: Animus 解碼小遊戲 (無敵安全版) --- */
+
+// 我們把這整段包在一個監聽器裡，確保 HTML 都生出來了才執行
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. 抓取元素 (現在抓一定抓得到)
+    const hackOverlay = document.getElementById('hack-overlay');
+    const startHackBtn = document.getElementById('start-hack-btn');
+    const closeHackBtn = document.getElementById('close-hack-btn');
+    const startGameBtn = document.getElementById('start-game-btn');
+    const hackGrid = document.getElementById('hack-grid');
+    const hackMsg = document.getElementById('hack-msg');
+    const sequenceDisplay = document.getElementById('sequence-display');
+
+    // 遊戲變數
+    const glyphs = ['Ω', 'Ψ', 'Δ', 'Φ', 'Σ', 'Π', 'λ', 'Ϡ', 'Ξ'];
+    let gameSequence = [];
+    let playerSequence = [];
+    let level = 1;
+
+    // 2. 初始化：產生按鈕
+    if (hackGrid) {
+        hackGrid.innerHTML = ''; // 先清空，避免重複產生
+        glyphs.forEach((char, index) => {
+            let btn = document.createElement('div');
+            btn.classList.add('glyph-btn');
+            btn.innerText = char;
+            btn.dataset.id = index;
+            // 玩家點擊事件
+            btn.addEventListener('click', () => handlePlayerInput(index));
+            hackGrid.appendChild(btn);
+        });
+    }
+
+    // 3. 開啟/關閉視窗
+    if (startHackBtn) {
+        startHackBtn.addEventListener('click', () => {
+            // 再多一層保險：如果 overlay 還是沒抓到，再抓一次
+            const overlay = hackOverlay || document.getElementById('hack-overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                resetGame();
+            } else {
+                console.error("❌ 錯誤：找不到 id='hack-overlay'。請檢查 HTML 是否有貼上遊戲視窗代碼。");
+            }
+        });
+    }
+
+    if (closeHackBtn) {
+        closeHackBtn.addEventListener('click', () => {
+            if (hackOverlay) hackOverlay.style.display = 'none';
+        });
+    }
+
+    // 4. 開始遊戲
+    if (startGameBtn) {
+        startGameBtn.addEventListener('click', () => {
+            startGameBtn.style.display = 'none'; 
+            playRound();
+        });
+    }
+
+    function resetGame() {
+        gameSequence = [];
+        playerSequence = [];
+        level = 1;
+        if(hackMsg) {
+            hackMsg.innerText = "SYSTEM LOCKED";
+            hackMsg.style.color = "#c0392b"; 
+        }
+        if(sequenceDisplay) sequenceDisplay.innerText = "READY?";
+        if(startGameBtn) startGameBtn.style.display = 'inline-block';
+    }
+
+    // 5. 遊戲核心：播放回合
+    function playRound() {
+        playerSequence = [];
+        if(hackMsg) hackMsg.innerText = `SEQUENCE LEVEL ${level}`;
+        
+        const randomStep = Math.floor(Math.random() * 9); 
+        gameSequence.push(randomStep);
+
+        playSequence(0);
+    }
+
+    function playSequence(index) {
+        if (index >= gameSequence.length) {
+            if(sequenceDisplay) sequenceDisplay.innerText = "YOUR TURN"; 
+            return;
+        }
+
+        const btnIndex = gameSequence[index];
+        // 確保 hackGrid 存在且有子元素
+        if (hackGrid && hackGrid.children[btnIndex]) {
+            const btn = hackGrid.children[btnIndex];
+            btn.classList.add('active');
+            
+            // 播放音效 (如果有設定的話)
+            const beep = document.getElementById('sfx-hover');
+            if(beep) { 
+                beep.currentTime = 0; 
+                beep.play().catch(e=>{}); 
+            }
+
+            setTimeout(() => {
+                btn.classList.remove('active'); 
+                setTimeout(() => {
+                    playSequence(index + 1); 
+                }, 300); 
+            }, 500); 
+        }
+    }
+
+    // 6. 處理玩家輸入
+    function handlePlayerInput(index) {
+        if (!hackGrid) return;
+        
+        const btn = hackGrid.children[index];
+        btn.classList.add('active');
+        setTimeout(() => btn.classList.remove('active'), 200);
+        
+        // 播放點擊音效
+        const clickSound = document.getElementById('sfx-click');
+        if(clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e=>{});
+        }
+
+        playerSequence.push(index);
+
+        const currentStep = playerSequence.length - 1;
+        
+        if (playerSequence[currentStep] !== gameSequence[currentStep]) {
+            gameOver();
+            return;
+        }
+
+        if (playerSequence.length === gameSequence.length) {
+            if (level === 3) { 
+                gameWin();
+            } else {
+                level++;
+                setTimeout(playRound, 1000); 
+            }
+        }
+    }
+
+    function gameOver() {
+        if(hackMsg) hackMsg.innerText = "DESYNCHRONIZED"; 
+        if(sequenceDisplay) sequenceDisplay.innerText = "FAILURE";
+        
+        // 播放失敗特效 (紅屏閃爍)
+        document.body.style.backgroundColor = "#500";
+        setTimeout(() => { document.body.style.backgroundColor = ""; }, 200);
+        
+        setTimeout(resetGame, 1000);
+    }
+
+    function gameWin() {
+        if(hackMsg) {
+            hackMsg.innerText = "SYNCHRONIZED"; 
+            hackMsg.style.color = "#27c93f"; 
+        }
+        if(sequenceDisplay) {
+            sequenceDisplay.innerHTML = "SECRET UNLOCKED: <br> 'Nothing is true.'";
+        }
+        // 通關特效 (綠屏)
+        document.body.style.backgroundColor = "#050";
+        setTimeout(() => { document.body.style.backgroundColor = ""; }, 500);
+    }
+
+}); // 這裡結束 DOMContentLoaded

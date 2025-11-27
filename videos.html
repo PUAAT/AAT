@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
+    <div id="preloader">
+        <div class="loader-content">
+            <img src="images/logo.png" alt="Loading..." class="loader-logo">
+            <p>SYNCHRONIZING...</p>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
     <div class="scroll-progress"></div>
@@ -129,6 +136,8 @@
             <a href="contact.html">Uplink</a>
         </div>
     </div>
+    <audio id="sfx-hover" src="audio/hover.wav" preload="auto"></audio>
+    <audio id="sfx-click" src="audio/click.wav" preload="auto"></audio>
 </footer>
 
     <script src="Js/main.js"></script>

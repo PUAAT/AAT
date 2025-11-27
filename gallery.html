@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
+    <div id="preloader">
+        <div class="loader-content">
+            <img src="images/logo.png" alt="Loading..." class="loader-logo">
+            <p>SYNCHRONIZING...</p>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
     <div class="scroll-progress"></div>
@@ -43,67 +50,67 @@
             <div class="gallery-masonry">
         
         <div class="gallery-item reveal">
-            <img src="images/art-syndicate-train.jpg" alt="Syndicate Train">
+            <img loading="lazy" src="images/art-syndicate-train.jpg" alt="Syndicate Train">
             <div class="gallery-caption">INDUSTRIAL WARFARE</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-unity-couple.jpg" alt="Arno & Elise">
+            <img loading="lazy" src="images/art-unity-couple.jpg" alt="Arno & Elise">
             <div class="gallery-caption">ARNO & ELISE</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-origins-family.jpg" alt="Bayek Family">
+            <img loading="lazy" src="images/art-origins-family.jpg" alt="Bayek Family">
             <div class="gallery-caption">THE HIDDEN ONES</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-unity-jump.jpg" alt="Unity Combat">
+            <img loading="lazy" src="images/art-unity-jump.jpg" alt="Unity Combat">
             <div class="gallery-caption">LEAP INTO BATTLE</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-origins-gods.jpg" alt="Trial of the Gods">
+            <img loading="lazy" src="images/art-origins-gods.jpg" alt="Trial of the Gods">
             <div class="gallery-caption">TRIAL OF THE GODS</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-syndicate-cane.jpg" alt="Jacob Frye">
+            <img loading="lazy" src="images/art-syndicate-cane.jpg" alt="Jacob Frye">
             <div class="gallery-caption">THE ROOKS LEADER</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-unity-ballroom.jpg" alt="Versailles">
+            <img loading="lazy" src="images/art-unity-ballroom.jpg" alt="Versailles">
             <div class="gallery-caption">VERSAILLES</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-unity-roof.jpg" alt="Paris Rooftops">
+            <img loading="lazy" src="images/art-unity-roof.jpg" alt="Paris Rooftops">
             <div class="gallery-caption">PARIS SKYLINE</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-syndicate-river.jpg" alt="Thames River">
+            <img loading="lazy" src="images/art-syndicate-river.jpg" alt="Thames River">
             <div class="gallery-caption">THE THAMES</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-origins-desert.jpg" alt="Desert">
+            <img loading="lazy" src="images/art-origins-desert.jpg" alt="Desert">
             <div class="gallery-caption">EGYPTIAN SANDS</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-syndicate-zip.jpg" alt="Zip Line">
+            <img loading="lazy" src="images/art-syndicate-zip.jpg" alt="Zip Line">
             <div class="gallery-caption">ROPE LAUNCHER</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-origins-curse.jpg" alt="Curse of Pharaohs">
+            <img loading="lazy" src="images/art-origins-curse.jpg" alt="Curse of Pharaohs">
             <div class="gallery-caption">ANCIENT MYTHOLOGY</div>
         </div>
 
         <div class="gallery-item reveal">
-            <img src="images/art-syndicate-view.jpg" alt="London View">
+            <img loading="lazy" src="images/art-syndicate-view.jpg" alt="London View">
             <div class="gallery-caption">ABOVE THE SMOKE</div>
         </div>
 
@@ -126,6 +133,8 @@
             <a href="contact.html">Uplink</a>
         </div>
     </div>
+    <audio id="sfx-hover" src="audio/hover.wav" preload="auto"></audio>
+    <audio id="sfx-click" src="audio/click.wav" preload="auto"></audio>
 </footer>
 
     <script src="Js/main.js"></script>

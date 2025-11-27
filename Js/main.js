@@ -3,6 +3,17 @@
  * 我們的目標：當頁面向下捲動時，幫 <nav> 加上 "scrolled" 這個 class
  */
 
+/* --- Level 2: 網站載入完成偵測 (新增這段在最上面) --- */
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // 延遲 0.5 秒再消失，讓使用者看清楚帥氣的動畫
+        setTimeout(() => {
+            preloader.classList.add('preloader-hidden');
+        }, 500);
+    }
+});
+
 // 1. 抓取我們的導覽列 (nav) 標籤
 const nav = document.querySelector('nav');
 
@@ -273,3 +284,82 @@ if (progressBar) {
         progressBar.style.width = scrolled + "%";
     });
 }
+
+/* --- Level 1: 駭客打字機特效 --- */
+
+// 定義要打的字
+const textH1 = "EXPLORE HISTORY";
+const textP = "THROUGH THE EYES OF ASSASSINS";
+
+// 抓取元素
+const h1Element = document.querySelector('.type-h1');
+const pElement = document.querySelector('.type-p');
+
+// 只有在首頁才執行 (確認元素存在)
+if (h1Element && pElement) {
+    let i = 0;
+    let j = 0;
+
+    // 打 H1 的函數
+    function typeWriterH1() {
+        if (i < textH1.length) {
+            h1Element.innerHTML += textH1.charAt(i);
+            h1Element.setAttribute('data-text', h1Element.innerHTML); // 讓 Glitch 特效同步
+            i++;
+            setTimeout(typeWriterH1, 100); // 打字速度 (越小越快)
+        } else {
+            // H1 打完後，開始打 P
+            setTimeout(typeWriterP, 500); // 停頓 0.5 秒
+        }
+    }
+
+    // 打 P 的函數
+    function typeWriterP() {
+        if (j < textP.length) {
+            pElement.innerHTML += textP.charAt(j);
+            j++;
+            setTimeout(typeWriterP, 50); // 副標題打快一點
+        }
+    }
+
+    // 啟動！
+    // 延遲 1 秒讓影片先跑一下再開始打字
+    setTimeout(typeWriterH1, 1000);
+}
+
+/* --- Level 3: UI 音效系統 (Audio Feedback) --- */
+
+// 1. 抓取音效元素
+const hoverSound = document.getElementById('sfx-hover');
+const clickSound = document.getElementById('sfx-click');
+
+// 2. 設定音量 (建議小聲一點，不要嚇到人)
+if (hoverSound) hoverSound.volume = 0.2; // 20% 音量
+if (clickSound) clickSound.volume = 0.4; // 40% 音量
+
+// 3. 定義播放函數 (防止連續觸發時沒聲音)
+function playHover() {
+    if (hoverSound) {
+        hoverSound.currentTime = 0; // 倒帶回開頭
+        hoverSound.play().catch(e => {}); // catch 錯誤是為了防止瀏覽器阻擋
+    }
+}
+
+function playClick() {
+    if (clickSound) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(e => {});
+    }
+}
+
+// 4. 幫所有「可互動元素」加上音效
+// 包含：連結(a), 按鈕(button), 還有我們的各種卡片(.card)
+const interactiveElements = document.querySelectorAll('a, button, .game-card, .video-card, .gallery-item, .team-card, .arsenal-card');
+
+interactiveElements.forEach(el => {
+    // 滑鼠移入 -> 播放 hover 音效
+    el.addEventListener('mouseenter', playHover);
+    
+    // 點擊 -> 播放 click 音效
+    el.addEventListener('click', playClick);
+});

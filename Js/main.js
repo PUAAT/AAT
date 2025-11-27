@@ -363,3 +363,38 @@ interactiveElements.forEach(el => {
     // 點擊 -> 播放 click 音效
     el.addEventListener('click', playClick);
 });
+
+/* --- Level 4: Konami Code 彩蛋 (上上下下左右左右BA) --- */
+const secretCode = [
+    'ArrowUp', 'ArrowUp', 
+    'ArrowDown', 'ArrowDown', 
+    'ArrowLeft', 'ArrowRight', 
+    'ArrowLeft', 'ArrowRight', 
+    'b', 'a'
+];
+let sequence = [];
+
+window.addEventListener('keydown', (e) => {
+    // 1. 把按下的鍵加入陣列
+    sequence.push(e.key);
+    
+    // 2. 只保留最後 10 個按鍵 (因為密碼長度是 10)
+    sequence.splice(-secretCode.length - 1, sequence.length - secretCode.length);
+
+    // 3. 檢查是否吻合
+    if (sequence.join('').includes(secretCode.join(''))) {
+        activateEagleVision();
+        sequence = []; // 重置
+    }
+});
+
+function activateEagleVision() {
+    // 播放音效
+    const eagleSound = document.getElementById('sfx-eagle');
+    if (eagleSound) eagleSound.play();
+
+    // 切換 CSS class
+    document.body.classList.toggle('eagle-vision');
+    
+    console.log("🦅 EAGLE VISION ACTIVATED");
+}

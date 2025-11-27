@@ -18,6 +18,12 @@
     background-color: #ff0000;
 }
 
+/* 修改選取文字的顏色 */
+::selection {
+    background: #c0392b; /* 刺客紅 */
+    color: #fff;
+}
+
 /* 1. 全局重置 (我們之前學過的!) */
 * {
     margin: 0;
@@ -1917,6 +1923,43 @@ footer:hover .footer-logo { opacity: 1; }
     opacity: 0;
     visibility: hidden;
     pointer-events: none; /* 讓滑鼠可以穿透去點下面的東西 */
+}
+
+/* --- Level 4: 鷹眼視覺模式 (Eagle Vision) --- */
+body.eagle-vision {
+    /* 整個網頁變成負片+藍色濾鏡 */
+    filter: invert(100%) hue-rotate(180deg) contrast(1.2);
+}
+
+body.eagle-vision img, 
+body.eagle-vision video {
+    /* 圖片和影片保持原樣 (再反轉一次回來) */
+    filter: invert(100%) hue-rotate(-180deg);
+}
+
+/* 隱藏訊息 (平常看不見) */
+.secret-message {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    color: #c0392b; /* 反轉後會變成青色 */
+    font-family: "Cinzel", serif;
+    z-index: 100000;
+    display: none; /* 預設隱藏 */
+    text-shadow: 0 0 20px white;
+    pointer-events: none;
+}
+
+body.eagle-vision .secret-message {
+    display: block;
+    animation: pulse-text 1s infinite;
+}
+
+@keyframes pulse-text {
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
 }
 
 /* 9s. 響應式設計 (RWD) - 手機版修正 */

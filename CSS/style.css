@@ -2096,6 +2096,119 @@ body.eagle-vision .secret-message {
     to { transform: scale(1); opacity: 1; }
 }
 
+/* --- Level 9: 404 失去同步頁面 --- */
+
+.error-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #000;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+}
+
+/* 巨大的 404 故障字 */
+.error-code {
+    font-size: 150px;
+    font-weight: bold;
+    color: #c0392b; /* 刺客紅 */
+    position: relative;
+    animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+/* 404 的紅藍殘影 */
+.error-code::before,
+.error-code::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+}
+
+.error-code::before {
+    left: 2px;
+    text-shadow: -2px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.error-code::after {
+    left: -2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+/* 錯誤訊息文字 */
+.error-message h2 {
+    color: #fff;
+    font-family: "Courier New", monospace;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.error-message p {
+    color: #888;
+    font-family: "Arial", sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.blink {
+    color: #c0392b !important;
+    font-weight: bold;
+    margin-top: 20px !important;
+    animation: blink-text 0.5s infinite;
+}
+
+/* 返回按鈕 */
+.return-btn {
+    margin-top: 40px;
+    padding: 15px 30px;
+    border: 2px solid #c0392b;
+    color: #c0392b;
+    text-decoration: none;
+    font-family: "Cinzel", serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+}
+
+.return-btn:hover {
+    background-color: #c0392b;
+    color: #fff;
+    box-shadow: 0 0 20px #c0392b;
+}
+
+/* 背景電視雜訊 (Static Noise) */
+.static-noise {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.05;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABMTExERERmZmZnZ2f///9A4gLSAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfUAgQDDAx5y23XAAAAh0lEQVQ4y2NgQAX8DIwsCgwgDCNFBsYIoiTCCKIkI4iSjCCKMolImiSKKIoIoiijiKKMIooyiiiKKMooWgOIIIoigiiKCKIoI4iijCKKMoooWgOIIIoigiiKCKIoI4iijCKKMoooyiiiKKMoooyijCKKMoooWgOIIIoigiiKCKIoI4iijCKKMoooWgOIAABxCfixk04fXwAAAABJRU5ErkJggg==');
+    animation: noise 0.2s infinite;
+}
+
+@keyframes noise {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(-2deg); }
+    40% { transform: skew(2deg); }
+    60% { transform: skew(-1deg); }
+    80% { transform: skew(1deg); }
+    100% { transform: skew(0deg); }
+}
+
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
 @media (max-width: 768px) {
 

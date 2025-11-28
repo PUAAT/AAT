@@ -61,6 +61,8 @@ body {
         
     background-color: #0a0a0a; /* 確保底色還是黑的 */
     background-attachment: fixed; /* 讓網格固定不動，製造深邃感 */
+
+    transition: opacity 0.5s ease, filter 0.5s ease;
 }
 
 /* --- Level 5000: 全站字體升級 --- */
@@ -76,50 +78,54 @@ body, p, span, a, input, button, textarea {
     font-family: 'Rajdhani', sans-serif;
 }
 
-/* 3. 裝潢導覽列 (nav) - (舊區塊修改) */
+/* --- 導覽列 (修復版) --- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px; /* 原本的 padding */
+    padding: 20px 20px; /* 縮小左右留白 */
     background-color: #111;
     border-bottom: 2px solid #c0392b;
-    transition: padding 0.3s ease, background-color 0.3s ease;
+    transition: padding 0.3s, background-color 0.3s;
 }
 
 .logo-link {
-    /* 讓圖片連結像一個區塊 */
     display: inline-block;
 }
 
 .logo-image {
-    /* 關鍵：控制 Logo 的高度 */
-    height: 40px; 
-    /* 你可以把 40px 調整成你覺得最適合導覽列的高度 */
-
-    width: auto; /* 寬度自動縮放，保持比例 */
-    vertical-align: middle; /* 讓圖片在導覽列中垂直對齊 */
+    height: 40px;
+    width: auto;
+    vertical-align: middle;
 }
 
 nav ul {
-    list-style: none; /* 移除 <li> 的小點點 */
-    display: flex; /* 關鍵！讓列表「內部」也用 Flexbox */
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    flex-wrap: nowrap; /* 強制不換行 */
 }
 
 nav ul li {
-    margin-left: 20px; /* 讓每個選項之間有 20px 的左邊距 */
+    margin-left: 15px; /* 縮小間距 */
 }
 
 nav ul li a {
-    text-decoration: none; /* 移除 <a> 連結的底線 */
-    color: #f0f0f0; /* 設定文字顏色 (跟 body 一樣) */
+    text-decoration: none;
+    color: #f0f0f0;
     font-weight: bold;
-    transition: color 0.3s; /* 加上一個 0.3 秒的顏色變化動畫 */
+    font-size: 16px; /* 固定字體大小 */
+    transition: color 0.3s;
+    font-family: 'Rajdhani', sans-serif; /* 確保用科技字體 */
+    white-space: nowrap; /* 強制文字不換行 */
 }
 
 nav ul li a:hover {
-    color: #c0392b; /* 當滑鼠「移上去」(hover) 時，連結變成紅色 */
+    color: #c0392b;
 }
+
 /* --- 漢堡選單按鈕 (預設隱藏) --- */
 .menu-toggle {
     display: none; /* 電腦版不顯示 */
@@ -2207,6 +2213,28 @@ body.eagle-vision .secret-message {
     60% { transform: skew(-1deg); }
     80% { transform: skew(1deg); }
     100% { transform: skew(0deg); }
+}
+
+/* --- Level 11: Animus 無縫轉場 --- */
+
+@keyframes fade-in {
+    from { opacity: 0; filter: blur(10px); transform: scale(0.98); }
+    to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; filter: blur(0); transform: scale(1); }
+    to { opacity: 0; filter: blur(10px); transform: scale(1.02); }
+}
+
+::view-transition-old(root) {
+    animation: 0.5s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+}
+
+::view-transition-new(root) {
+    animation: 0.5s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+    /* 確保新頁面在最上層 */
+    z-index: 9999; 
 }
 
 /* 9s. 響應式設計 (RWD) - 手機版修正 */

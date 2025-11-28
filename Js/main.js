@@ -580,3 +580,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 }); // 這裡結束 DOMContentLoaded
+
+/* --- Level 11: 簡易版 Animus 轉場 (視覺詐欺) --- */
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    
+    // 排除條件：不是連結、開新分頁、錨點、或是點擊了 lightbox
+    if (!link || link.target === '_blank' || link.href.includes('#') || link.closest('.lightbox')) return;
+
+    // 如果網址跟現在一樣，也不做事
+    if (link.href === window.location.href) return;
+
+    e.preventDefault(); // 阻止瞬間跳轉
+
+    // 1. 先讓畫面「淡出 / 故障」
+    document.body.style.transition = 'opacity 0.5s ease, filter 0.5s ease';
+    document.body.style.opacity = '0';
+    document.body.style.filter = 'blur(10px) grayscale(100%)'; // 變模糊+黑白
+
+    // 2. 等動畫跑完 (500ms) 再真的跳轉
+    setTimeout(() => {
+        window.location.href = link.href;
+    }, 500);
+});
+
+// 頁面載入時：讓畫面「淡入」 (為了配合上面的淡出)
+// 把這段加在 window.addEventListener('load'...) 裡面，或是直接放全域
+window.addEventListener('pageshow', () => {
+    document.body.style.opacity = '1';
+    document.body.style.filter = 'none';
+});

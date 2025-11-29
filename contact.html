@@ -31,6 +31,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="manifest" href="manifest.json">
 
@@ -94,10 +96,7 @@
             <h3>GLOBAL STATUS</h3>
             
             <div class="map-container">
-                <img src="images/world-map-tech.jpg" alt="Global Map" class="map-img">
-                <div class="map-point london"></div>
-                <div class="map-point paris"></div>
-                <div class="map-point egypt"></div>
+                <div id="intel-map"></div>
             </div>
             
             <div class="status-list">

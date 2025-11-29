@@ -610,3 +610,60 @@ window.addEventListener('pageshow', () => {
     document.body.style.opacity = '1';
     document.body.style.filter = 'none';
 });
+
+/* --- Level 12: 互動式戰情地圖 (Leaflet.js) --- */
+
+// 檢查頁面上是否有地圖容器 (只在 Contact 頁面執行)
+if (document.getElementById('intel-map')) {
+    
+    // 1. 初始化地圖，設定中心點 (歐洲) 和縮放級別
+    // [緯度, 經度], 縮放 3
+    const map = L.map('intel-map').setView([40, 10], 2);
+
+    // 2. 載入「暗物質 (Dark Matter)」地圖圖層 (這是免費且超帥的黑地圖)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(map);
+
+    // 3. 定義刺客 Logo 作為地圖圖標 (Marker Icon)
+    const assassinIcon = L.icon({
+        iconUrl: 'images/logo.png', // 確保你有這個檔案
+        iconSize: [30, 30], //圖示大小
+        iconAnchor: [15, 15], // 定位點在圖示中心
+        popupAnchor: [0, -15] // 彈出視窗的位置
+    });
+
+    // 4. 定義據點資料 (地點、座標、描述)
+    const locations = [
+        { 
+            name: "London Cell (Syndicate)", 
+            coords: [51.5074, -0.1278], 
+            desc: "Status: ACTIVE<br>Agent: Jacob & Evie" 
+        },
+        { 
+            name: "Paris Cell (Unity)", 
+            coords: [48.8566, 2.3522], 
+            desc: "Status: ACTIVE<br>Agent: Arno Dorian" 
+        },
+        { 
+            name: "Egypt Cell (Origins)", 
+            coords: [26.8206, 30.8025], 
+            desc: "Status: DORMANT<br>Origin: Bayek of Siwa" 
+        }
+    ];
+
+    // 5. 迴圈把標記插到地圖上
+    locations.forEach(loc => {
+        L.marker(loc.coords, {icon: assassinIcon})
+         .addTo(map)
+         .bindPopup(`
+            <div style="text-align:center; font-family:'Rajdhani', sans-serif;">
+                <strong style="color:#c0392b; font-size:16px;">${loc.name}</strong>
+                <hr style="margin:5px 0; border-color:#333;">
+                ${loc.desc}
+            </div>
+         `);
+    });
+}

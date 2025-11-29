@@ -62,6 +62,7 @@
                 <li><a href="videos.html">Videos</a></li> 
                 <li><a href="gallery.html">Gallery</a></li> 
                 <li><a href="contact.html">Contact Us</a></li> 
+                <li class="search-item"><a href="#" id="search-trigger">🔍</a></li>
             </ul>
         </nav>
     </header>
@@ -102,6 +103,17 @@
     <audio id="sfx-click" src="audio/click.wav" preload="auto"></audio>
     <audio id="sfx-eagle" src="audio/eagle_vision.mp3" preload="auto"></audio>
 </footer>
+<div id="search-overlay" class="search-overlay">
+    <div class="search-container">
+        <span class="close-search">&times;</span>
+        
+        <h2 class="search-title">ACCESSING DATABASE...</h2>
+        
+        <input type="text" id="search-input" placeholder="ENTER KEYWORD (e.g. Arno, Blade, Egypt)..." autocomplete="off">
+        
+        <div id="search-results"></div>
+    </div>
+</div>
 <script src="Js/main.js"></script>
 </body>
 </html>

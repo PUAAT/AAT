@@ -667,3 +667,89 @@ if (document.getElementById('intel-map')) {
          `);
     });
 }
+
+/* --- Level 13: Animus 資料庫搜尋系統 --- */
+
+// 1. 建立資料庫 (這裡你可以自己新增更多資料！)
+const animusDatabase = [
+    { title: "Bayek of Siwa", type: "Character", link: "story.html#origins-story" },
+    { title: "Arno Dorian", type: "Character", link: "story.html#unity-story" },
+    { title: "Jacob & Evie Frye", type: "Character", link: "story.html#syndicate-story" },
+    { title: "Hidden Blade", type: "Weapon", link: "game-intro.html" },
+    { title: "Rope Launcher", type: "Weapon", link: "game-intro.html" },
+    { title: "Medjay Shield", type: "Weapon", link: "game-intro.html" },
+    { title: "Assassin's Creed Origins", type: "Game", link: "index.html#origins" },
+    { title: "Assassin's Creed Unity", type: "Game", link: "index.html#unity" },
+    { title: "Assassin's Creed Syndicate", type: "Game", link: "index.html#syndicate" },
+    { title: "Cinematic Trailers", type: "Video", link: "videos.html" },
+    { title: "Notre-Dame de Paris", type: "Location", link: "game-intro.html" },
+    { title: "AAT Squad", type: "Team", link: "about.html" },
+    { title: "Join the Brotherhood", type: "Contact", link: "contact.html" }
+];
+
+// 2. 抓取元素
+const searchTrigger = document.getElementById('search-trigger');
+const searchOverlay = document.getElementById('search-overlay');
+const closeSearch = document.querySelector('.close-search');
+const searchInput = document.getElementById('search-input');
+const searchResults = document.getElementById('search-results');
+
+// 3. 開啟搜尋視窗
+if (searchTrigger) {
+    searchTrigger.addEventListener('click', (e) => {
+        e.preventDefault(); // 防止跳轉
+        searchOverlay.style.display = 'block';
+        searchInput.focus(); // 自動聚焦到輸入框
+    });
+}
+
+// 4. 關閉搜尋視窗
+if (closeSearch) {
+    closeSearch.addEventListener('click', () => {
+        searchOverlay.style.display = 'none';
+    });
+}
+
+// 點擊背景關閉
+window.addEventListener('click', (e) => {
+    if (e.target == searchOverlay) {
+        searchOverlay.style.display = 'none';
+    }
+});
+
+// 5. 搜尋邏輯 (即時篩選)
+if (searchInput) {
+    searchInput.addEventListener('keyup', (e) => {
+        const term = e.target.value.toLowerCase(); // 取得輸入值並轉小寫
+        searchResults.innerHTML = ''; // 清空舊結果
+
+        if (term.length < 1) return; // 如果沒輸入就不搜尋
+
+        // 篩選資料庫
+        const matches = animusDatabase.filter(item => {
+            return item.title.toLowerCase().includes(term) || item.type.toLowerCase().includes(term);
+        });
+
+        // 顯示結果
+        if (matches.length > 0) {
+            matches.forEach(match => {
+                const div = document.createElement('a');
+                div.href = match.link;
+                div.className = 'result-item';
+                div.innerHTML = `
+                    <span class="result-title">${match.title}</span>
+                    <span class="result-type">[ ${match.type} ]</span>
+                `;
+                
+                // 點擊後關閉視窗
+                div.addEventListener('click', () => {
+                    searchOverlay.style.display = 'none';
+                });
+                
+                searchResults.appendChild(div);
+            });
+        } else {
+            searchResults.innerHTML = '<p style="color:#666;">NO MATCHING RECORDS FOUND.</p>';
+        }
+    });
+}

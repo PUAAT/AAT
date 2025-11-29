@@ -2264,6 +2264,110 @@ body.eagle-vision .secret-message {
     color: #c0392b !important;
 }
 
+/* --- Level 13: 資料庫搜尋介面 --- */
+
+/* 搜尋按鈕微調 */
+#search-trigger {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 搜尋遮罩 (全螢幕) */
+.search-overlay {
+    display: none; /* 預設隱藏 */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* 極深黑底 */
+    z-index: 20000; /* 最上層 */
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease;
+}
+
+.search-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 100px auto;
+    text-align: center;
+    position: relative;
+}
+
+/* 關閉按鈕 */
+.close-search {
+    position: absolute;
+    top: -50px; right: 0;
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.close-search:hover { color: #c0392b; }
+
+.search-title {
+    font-family: "Courier New", monospace;
+    color: #c0392b;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    animation: blink-text 1.5s infinite;
+}
+
+/* 輸入框 */
+#search-input {
+    width: 100%;
+    padding: 20px;
+    font-size: 24px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #555;
+    color: #fff;
+    font-family: "Cinzel", serif;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#search-input:focus {
+    border-bottom-color: #c0392b; /* Focus 時變紅 */
+}
+
+/* 搜尋結果列表 */
+#search-results {
+    margin-top: 40px;
+    text-align: left;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* 單個搜尋結果項目 */
+.result-item {
+    background: #111;
+    border-left: 3px solid #c0392b;
+    padding: 15px;
+    margin-bottom: 10px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+}
+
+.result-item:hover {
+    transform: translateX(10px); /* 滑鼠移上去往右動 */
+    background: #1a1a1a;
+}
+
+.result-title {
+    color: #fff;
+    font-size: 18px;
+    font-family: "Cinzel", serif;
+    display: block;
+}
+
+.result-type {
+    color: #aaa;
+    font-size: 12px;
+    font-family: "Courier New", monospace;
+    text-transform: uppercase;
+}
+
 /* 9s. 響應式設計 (RWD) - 手機版修正 */
 @media (max-width: 768px) {
 
